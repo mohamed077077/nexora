@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "./variables.css";
+@import "./utilities.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+
+@layer base {
+  body {
+    direction: ltr;
+    @apply bg-background text-foreground;
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
