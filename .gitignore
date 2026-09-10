@@ -7,6 +7,7 @@ out/
 
 # Environment
 .env
+.env*
 .env.local
 .env.development.local
 .env.production.local
@@ -27,3 +28,4 @@ build/
 
 # IDE
 .vscode/
+keys/*

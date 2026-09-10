@@ -1,8 +1,39 @@
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/shared/ui/card";
+
+import Logo from "@/shared/components/Logo";
+import LoginForm from "@/features/auth/components/LoginForm";
+
 export default function Login() {
-    return (
-        <div className=" bg-surface h-screen w-screen flex  items-center justify-center">
-            <div className="flex flex-col gap-3.5 w-full max-w-105 p-5 border border-border h-50 bg-white/95 dark:bg-slate-900/90  duration-300 shadow-2xl backdrop-blur-xl hover:shadow-md hover:-translate-y-1 rounded-3xl">
-            </div>
-        </div>
-    )
+
+  return (
+    <div className="flex min-h-screen items-center justify-center  px-4">
+      <Card className="w-full max-w-sm ">
+        <CardHeader className="space-y-2 text-center">
+          {/* Logo */}
+          <div className="mx-auto mb-12 flex items-center justify-center">
+            <Logo />
+          </div>
+
+          <CardTitle className="text-3xl font-semibold">
+            Welcome Back
+          </CardTitle>
+
+          <CardDescription className="text-muted-foreground">
+            Sign in to your account to continue.
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+            <LoginForm />
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

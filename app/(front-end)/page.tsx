@@ -1,4 +1,9 @@
-export default function Home() {
+import AddUserForm from "@/lib/addUser/Form";
 
-  return <></>
+export default function Home() {
+  return (
+    <div>
+      <AddUserForm />
+    </div>
+  );
 }
