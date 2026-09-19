@@ -2,13 +2,12 @@ import Image from "next/image";
 
 const Logo = () => {
   return (
-    <div className="relative w-72 aspect-4/1">
+    <div >
       <Image
-        src="https://res.cloudinary.com/dzgwzplze/image/upload/v1788664327/14edf6e4-09b4-42cf-b84c-b6b893226f87_muha4e.png"
+        src="https://res.cloudinary.com/dsnbjtkts/image/upload/v1789642736/WhatsApp_Image_2026-09-03_at_6.30.18_PM_2_kzz88z.png"
         alt="Nexora"
         fill
         priority
-        className="object-contain"
       />
     </div>
   );

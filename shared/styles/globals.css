@@ -5,36 +5,38 @@
 @import "shadcn/tailwind.css";
 
 :root {
-  --background: #faf9f7;
-  --foreground: #252525;
+   --background: #ffffff;
+  --foreground: #000000;
 
-  --card: #ffffff;
-  --card-foreground: #252525;
+  --card: #FFFDFD;
+  --card-foreground: #000000;
 
-  --primary: #e99b22;
+  --primary: #fb900e;
   --primary-foreground: #ffffff;
 
-  --secondary: #f6f5f2;
-  --secondary-foreground: #333333;
+  --secondary: #c37d0c;
+  --secondary-foreground: #ffffff;
 
-  --muted: #f6f5f2;
-  --muted-foreground: #737373;
+  --muted: #f3f3f0;
+  --muted-foreground: #797979;
 
-  --accent: #fff4df;
-  --accent-foreground: #8a5a12;
+  --accent: #fdead1;
+  --accent-foreground: #7a4c0a;
 
-  --border: #e5e2dc;
-  --input: #dedbd5;
+  --border: #000000;
+  --input: #FFFDFD;
 
-  --ring: #e99b22;
+  --ring: #fb900e;
+
+  --destructive: #f41414;
+  --comfirmed: #0F63FF;
+  --success: #117e0a;
 
   --radius: 0.625rem;
 }
 
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -73,21 +75,25 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --card-spacing: 160px;
-}
 
+}
 
 
 @layer base {
+  html {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+  }
+
   body {
     direction: ltr;
     @apply bg-background text-foreground;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
   }
+
   * {
-    @apply border-border outline-ring/50;
-  }
-  html {
-    @apply font-sans;
+    @apply border-border outline-ring/10;
   }
 }
-

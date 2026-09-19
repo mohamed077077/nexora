@@ -23,9 +23,9 @@ export default function Logout() {
     <button
       onClick={() => logoutMutation.mutate()}
       disabled={logoutMutation.isPending}
-      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-colors bg-red-500 rounded-md hover:bg-red-600 disabled:opacity-50"
+     className="flex h-16 w-full items-center gap-2.5 text-xl font-semibold text-destructive cursor-pointer"
     >
-      <LogOut size={16} />
+      <LogOut size={24} strokeWidth={1.8} />
       {logoutMutation.isPending ? "Logging out..." : "Logout"}
     </button>
   );

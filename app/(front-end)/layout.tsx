@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Nexora",
   description: "Nexora",
   icons: {
-    icon: "https://res.cloudinary.com/dzgwzplze/image/upload/v1788664545/eb7b7420-9d9a-4ace-84dc-67d7bd4dbe49_jdlel3.png",
+    icon: "https://res.cloudinary.com/dsnbjtkts/image/upload/v1789643151/d1d3c978-8e27-40b2-b02f-f657756a3ddf_fbjcy8.png",
   },
 };
 export default function RootLayout({

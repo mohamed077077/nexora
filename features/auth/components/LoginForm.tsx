@@ -82,7 +82,7 @@ export default function LoginForm() {
 
           <button
             type="button"
-            className="text-sm font-medium text-primary transition-opacity hover:opacity-80"
+            className="text-sm font-medium text-primary transition-opacity hover:opacity-80 cursor-pointer"
           >
             Forgot password?
           </button>
@@ -90,7 +90,7 @@ export default function LoginForm() {
 
         <div className="relative">
           <Lock
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground cursor-pointer"
             aria-hidden="true"
           />
 

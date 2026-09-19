@@ -13,11 +13,10 @@ import LoginForm from "@/features/auth/components/LoginForm";
 export default function Login() {
 
   return (
-    <div className="flex min-h-screen items-center justify-center  px-4">
-      <Card className="w-full max-w-sm ">
+    <div className="flex min-h-screen items-center justify-center px-auto">
+      <Card className="w-full max-w-sm mx-5">
         <CardHeader className="space-y-2 text-center">
-          {/* Logo */}
-          <div className="mx-auto mb-12 flex items-center justify-center">
+          <div className="mx-auto mb-18 flex items-center justify-center relative  w-64 md:w-68 h-20">
             <Logo />
           </div>
 
@@ -31,7 +30,7 @@ export default function Login() {
         </CardHeader>
 
         <CardContent>
-            <LoginForm />
+          <LoginForm />
         </CardContent>
       </Card>
     </div>
