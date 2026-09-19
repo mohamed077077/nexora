@@ -6,10 +6,10 @@
 
 :root {
    --background: #ffffff;
-  --foreground: #000000;
+  --foreground: #171717;
 
   --card: #FFFDFD;
-  --card-foreground: #000000;
+  --card-foreground: #171717;
 
   --primary: #fb900e;
   --primary-foreground: #ffffff;
@@ -23,7 +23,7 @@
   --accent: #fdead1;
   --accent-foreground: #7a4c0a;
 
-  --border: #000000;
+  --border: #E7E7E7;
   --input: #FFFDFD;
 
   --ring: #fb900e;
@@ -68,6 +68,8 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --color-success: var(--success);
+  --color-comfirmed: var(--comfirmed);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

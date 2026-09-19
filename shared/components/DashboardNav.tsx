@@ -37,10 +37,10 @@ export default function DashboardNav() {
   return (
     <nav
       aria-label="Dashboard navigation"
-      className="flex min-h-screen w-64 flex-col"
+      className="flex min-h-screen w-64 flex-col bg-card"
     >
       {/* Logo */}
-      <div className="relative flex h-16 w-full items-center pl-4 mb-2.5">
+      <div className="relative flex h-16 w-[80%] justify-center items-center pl-4 mb-2.5">
         <Logo />
       </div>
 
