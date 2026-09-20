@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import { Pencil, Trash2 } from "lucide-react";
-
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -13,7 +13,9 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 
+
 import { Button } from "@/shared/ui/button";
+import ProductPagination from "./ProductPagination";
 
 const products = [
   {
@@ -42,49 +44,661 @@ const products = [
     price: 69.99,
     stock: 31,
     orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "1",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "2",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "3",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
+  },  {
+    id: "4",
+    title: "Premium Hoodie",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Hoodies",
+    price: 34.99,
+    stock: 5,
+    orders: 128,
+  },
+  {
+    id: "5",
+    title: "Street Low",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 129.99,
+    stock: 12,
+    orders: 89,
+  },
+  {
+    id: "6",
+    title: "Runner Pro",
+    image: "https://res.cloudinary.com/dzgwzplze/image/upload/v1789823126/vecteezy_men-s-leisure-leather-shoe-isolated-on-transparent-background_48720410_lvtwor.png",
+    category: "Shoes",
+    price: 69.99,
+    stock: 31,
+    orders: 64,
   },
 
 
 ];
 
 export default function ProductTable() {
+  
+const [currentPage, setCurrentPage] = useState(1);
+
+const productsPerPage = 3;
+
+const totalPages = Math.ceil(products.length / productsPerPage);
+
+
+const startIndex = (currentPage - 1) * productsPerPage;
+
+const currentProducts = products.slice(
+  startIndex,
+  startIndex + productsPerPage
+);
   return (
     <div className="w-full overflow-auto rounded-2xl border border-border">
       <Table>
-        <TableHeader className="bg-card">
-          <TableRow className="border-0 border-b border-border last:border-b-0 hover:bg-transparent">
-            <TableHead className="h-16 px-5 font-normal text-base text-foreground border-0">
+        <TableHeader className="bg-card ">
+          <TableRow className="border-0  h-16  border-b border-border last:border-b-0 hover:bg-transparent">
+            <TableHead className="table-head-cell">
               Image
             </TableHead>
 
-            <TableHead className="h-16 px-5 font-normal text-base text-foreground border-0">
+            <TableHead className="table-head-cell">
               Product
             </TableHead>
 
-            <TableHead className="h-16 px-5 font-normal text-base text-foreground border-0">
+            <TableHead className="table-head-cell">
               Category
             </TableHead>
 
-            <TableHead className="h-16 px-5 font-normal text-base text-foreground border-0">
+            <TableHead className="table-head-cell">
               Price
             </TableHead>
 
-            <TableHead className="h-16 px-5 font-normal text-base text-foreground border-0">
+            <TableHead className="table-head-cell">
               Stock
             </TableHead>
 
-            <TableHead className="h-16 px-5 font-normal text-base text-foreground border-0">
+            <TableHead className="table-head-cell">
               Orders
             </TableHead>
 
-            <TableHead className="h-16 px-5 font-normal text-base text-foreground border-0">
+            <TableHead className="table-head-cell">
               Actions
             </TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
-          {products.map((product) => (
+          {currentProducts.map((product) => (
             <TableRow className="border-0 border-b border-border last:border-b-0 hover:bg-transparent px-5 py-4"
               key={product.id}
             >
@@ -103,18 +717,18 @@ export default function ProductTable() {
 
               {/* Product Name */}
               <TableCell>
-                <span className="font-medium text-base text-foreground">
+                <span className="table-text">
                   {product.title}
                 </span>
               </TableCell>
 
               {/* Category */}
-              <TableCell className="font-medium text-base text-foreground">
+              <TableCell className="table-text">
                 {product.category}
               </TableCell>
 
               {/* Price */}
-              <TableCell className="font-medium text-base text-foreground">
+              <TableCell className="table-text">
                 ${product.price.toFixed(2)}
               </TableCell>
 
@@ -125,7 +739,7 @@ export default function ProductTable() {
               </TableCell>
 
               {/* Orders */}
-              <TableCell className="font-medium text-base text-foreground">
+              <TableCell className="table-text">
                 {product.orders}
               </TableCell>
 
@@ -135,7 +749,7 @@ export default function ProductTable() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="size-11  bg-background  hover:scale-110 transition-transform cursor-pointer"
+                    className="size-11  bg-background  icon-hover hover:text-foreground/70"
                     aria-label={`Edit ${product.title}`}
                   >
                     <Pencil className="size-5" />
@@ -144,7 +758,7 @@ export default function ProductTable() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="size-11  bg-background text-destructive  hover:text-destructive hover:scale-110 transition-transform cursor-pointer"
+                    className="size-11  bg-background text-destructive icon-hover hover:text-destructive/70 "
                     aria-label={`Delete ${product.title}`}
                   >
                     <Trash2 className="size-5" />
@@ -155,6 +769,17 @@ export default function ProductTable() {
           ))}
         </TableBody>
       </Table>
+      <div className="flex w-full h-16 items-center justify-between border-t border-border px-5">
+        <p className="text-sm text-muted-foreground">
+          {products.length} products
+        </p>
+
+  <ProductPagination
+    currentPage={currentPage}
+    totalPages={totalPages}
+    onPageChange={setCurrentPage}
+  />
+</div>
     </div>
   );
 }

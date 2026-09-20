@@ -1,0 +1,13 @@
+@layer components {
+  .icon-hover {
+    @apply hover:bg-background hover:scale-110 hover:transition-transform hover:cursor-pointer transition-transform transform duration-300;
+  }
+
+  .table-head-cell {
+    @apply h-16 px-5 font-normal text-base text-foreground border-0;
+  }
+
+  .table-text {
+    @apply font-medium text-base text-foreground;
+  }
+}
