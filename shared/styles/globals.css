@@ -8,6 +8,9 @@
    --background: #ffffff;
   --foreground: #171717;
 
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+
   --card: #FFFDFD;
   --card-foreground: #171717;
 
@@ -24,7 +27,7 @@
   --accent-foreground: #7a4c0a;
 
   --border: #E7E7E7;
-  --input: #FFFDFD;
+  --input: #E7E7E7;
 
   --ring: #fb900e;
 

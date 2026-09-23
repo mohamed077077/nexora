@@ -16,6 +16,7 @@ import {
 
 import { Button } from "@/shared/ui/button";
 import ProductPagination from "./ProductPagination";
+import  DashboardActions  from "@/shared/components/DashboardActions";
 
 const products = [
   {
@@ -745,25 +746,7 @@ const currentProducts = products.slice(
 
               {/* Actions */}
               <TableCell>
-                <div className="flex items-center justify-center gap-3">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="size-11  bg-background  icon-hover hover:text-foreground/70"
-                    aria-label={`Edit ${product.title}`}
-                  >
-                    <Pencil className="size-5" />
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="size-11  bg-background text-destructive icon-hover hover:text-destructive/70 "
-                    aria-label={`Delete ${product.title}`}
-                  >
-                    <Trash2 className="size-5" />
-                  </Button>
-                </div>
+                <DashboardActions title="product"/>
               </TableCell>
             </TableRow>
           ))}
