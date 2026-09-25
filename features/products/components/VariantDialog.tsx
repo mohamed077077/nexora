@@ -18,16 +18,21 @@ import {
 } from "@/shared/ui/select";
 import { Image as ImageIcon, X } from "lucide-react";
 import { useState } from "react";
+import { Variant } from "./data";
 
-type AddVariantDialogProps = {
+type VariantDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  action?: "add" | "edit";
+  value?: Variant;
 };
 
-export default function AddVariantDialog({
+export default function VariantDialog({
   open,
   onOpenChange,
-}: AddVariantDialogProps) {
+  action = "add",
+  value,
+}: VariantDialogProps) {
   const [imageUrl, setImageUrl] = useState("");
 
   return (
@@ -50,11 +55,11 @@ export default function AddVariantDialog({
         {/* Header */}
         <div className="flex h-14 items-center justify-between border-b border-border px-3.5">
           <DialogTitle className="text-xl font-medium">
-            Add Variant
+            {action === "edit" ? "Edit Variant" : "Add Variant"}
           </DialogTitle>
 
           <DialogDescription className="sr-only">
-            Add a product variant
+            {action === "edit" ? "Edit a product variant" : "Add a product variant"}
           </DialogDescription>
 
           <button
@@ -212,7 +217,7 @@ export default function AddVariantDialog({
               type="button"
               className="h-9 rounded-md px-3.5 text-sm font-medium cursor-pointer"
             >
-              Add Variant
+              {action === "edit" ? "Save Changes" : "Add Variant"}
             </Button>
           </div>
         </div>

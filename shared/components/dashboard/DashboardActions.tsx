@@ -3,33 +3,36 @@ import { Pencil, Trash2 } from "lucide-react";
 
 type DashboardActionsProps = {
   title?: string;
-  compact?: boolean;
+  size?: "default" | "sm" | "lg";
   onEdit?: () => void;
   onDelete?: () => void;
 };
 
 export default function DashboardActions({
-  title = "product",
-  compact = false,
+  title,
+  size = "default",
   onEdit,
   onDelete,
 }: DashboardActionsProps) {
+  const buttonSizeClass = size === "sm" ? "size-8" : size === "lg" ? "size-10" : "size-9";
+  const iconSizeClass = size === "sm" ? "size-4" : size === "lg" ? "size-5" : "size-5";
+
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-center gap-2 ml-10 mb-5 md:m-0">
       <Button
         type="button"
         variant="outline"
         size="icon"
         onClick={onEdit}
         className={`
-          ${compact ? "size-8" : "size-11"}
+          ${buttonSizeClass}
           bg-background
           icon-hover
           hover:text-foreground/70
         `}
         aria-label={`Edit ${title}`}
       >
-        <Pencil className={compact ? "size-4" : "size-5"} />
+        <Pencil className={iconSizeClass} />
       </Button>
 
       <Button
@@ -38,7 +41,7 @@ export default function DashboardActions({
         size="icon"
         onClick={onDelete}
         className={`
-          ${compact ? "size-8" : "size-11"}
+          ${buttonSizeClass}
           bg-background
           text-destructive
           icon-hover
@@ -46,7 +49,7 @@ export default function DashboardActions({
         `}
         aria-label={`Delete ${title}`}
       >
-        <Trash2 className={compact ? "size-4" : "size-5"} />
+        <Trash2 className={iconSizeClass} />
       </Button>
     </div>
   );
