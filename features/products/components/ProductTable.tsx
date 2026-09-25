@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 import {
@@ -12,8 +11,9 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 
-import ProductPagination from "./ProductPagination";
+import AppPagination from "../../../shared/components/AppPagination";
 import DashboardActions from "@/shared/components/dashboard/DashboardActions";
+import DashboardImage from "@/shared/components/dashboard/DashboardImage";
 import { products } from "./data";
 
 export default function ProductTable() {
@@ -55,15 +55,7 @@ export default function ProductTable() {
               >
                 {/* Product Image */}
                 <TableCell className="px-5 py-4">
-                  <div className="relative size-20 overflow-hidden rounded-xl bg-card">
-                    <Image
-                      src={product.image}
-                      alt={product.title}
-                      fill
-                      sizes="80px"
-                      className="cursor-pointer object-contain transition-transform hover:scale-110"
-                    />
-                  </div>
+                  <DashboardImage src={product.image} alt={product.title} />
                 </TableCell>
 
                 {/* Product Name */}
@@ -109,7 +101,7 @@ export default function ProductTable() {
 
         {/* Desktop Footer */}
         <div className="flex h-16 w-full items-center justify-between border-t border-border px-5">
-          <ProductPagination
+          <AppPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
@@ -127,15 +119,7 @@ export default function ProductTable() {
               className="flex items-center gap-4 border-b border-border px-4 py-4 last:border-b-0"
             >
               {/* Product Image */}
-              <div className="relative size-20 overflow-hidden rounded-xl bg-card">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  fill
-                  sizes="80px"
-                  className="cursor-pointer object-contain transition-transform hover:scale-110"
-                />
-              </div>
+              <DashboardImage src={product.image} alt={product.title} />
 
               {/* Product Info */}
               <div className="min-w-0 flex-1">
@@ -182,7 +166,7 @@ export default function ProductTable() {
 
         {/* Mobile Footer */}
         <div className="flex h-16 items-center justify-between border-t border-border px-4">
-          <ProductPagination
+          <AppPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}

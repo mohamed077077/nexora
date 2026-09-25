@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Logo from "@/shared/components/dashboard/Logo";
+import Logo from "@/shared/components/Logo";
 import Logout from "@/features/auth/components/Logout";
 import {
   LayoutGrid,
@@ -25,7 +25,7 @@ export const navigationItems = [
     icon: Palette,
   },
   {
-    label: "Category",
+    label: "Categories",
     href: "/dashboard/categories",
     icon: LayoutGrid,
   },

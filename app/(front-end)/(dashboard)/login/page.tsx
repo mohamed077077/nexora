@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/shared/ui/card";
 
-import Logo from "@/shared/components/dashboard/Logo";
+import Logo from "@/shared/components/Logo";
 import LoginForm from "@/features/auth/components/LoginForm";
 
 export default function Login() {
