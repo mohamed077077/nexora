@@ -1,28 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useCategories } from "../hooks/useCategories";
 
 import AppPagination from "@/shared/components/AppPagination";
 import AppError from "@/shared/components/AppError";
 import AppLoading from "@/shared/components/AppLoading";
-import { EmptyCategory, EmptySearch } from "./CategoryEmptyState";
+import { Empty, EmptySearch } from "@/shared/components/AppEmptyState";
 import CategoryDesktopTable from "./CategoryDesktopTable";
 import CategoryMobileList from "./CategoryMobileList";
-import { getCategories } from "../http/GetCategories";
+import CategoryDialog from "./CategoryDialog";
+
+import type { Category } from "../types";
 
 type CategoryContentProps = {
   search: string;
 };
 
-
 export default function CategoryContent({ search }: CategoryContentProps) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [editCategory, setEditCategory] = useState<Category | null>(null);
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+  const { data, isLoading, isError, error } = useCategories();
+
+  const handleEdit = (category: Category) => {
+    setEditCategory(category);
+  };
+
+  const handleEditOpenChange = (open: boolean) => {
+    if (!open) setEditCategory(null);
+  };
 
   switch (true) {
     case isLoading:
@@ -39,13 +46,20 @@ export default function CategoryContent({ search }: CategoryContentProps) {
       const categories = data.categories;
       const categoriesPerPage = 4;
 
-      if (categories.length === 0) return <EmptyCategory />;
+      if (categories.length === 0)
+        return (
+          <Empty
+            title="No Categories Yet"
+            description="Get started by adding your first category."
+          />
+        );
 
       const filteredCategories = categories.filter((c) =>
         c.title.toLowerCase().includes(search.toLowerCase())
       );
 
-      if (filteredCategories.length === 0) return <EmptySearch search={search} />;
+      if (filteredCategories.length === 0)
+        return <EmptySearch title="category" search={search} />;
 
       const totalPages = Math.ceil(filteredCategories.length / categoriesPerPage);
       const startIndex = (currentPage - 1) * categoriesPerPage;
@@ -53,14 +67,28 @@ export default function CategoryContent({ search }: CategoryContentProps) {
 
       return (
         <>
+          {/* Edit Dialog */}
+          <CategoryDialog
+            open={!!editCategory}
+            onOpenChange={handleEditOpenChange}
+            action="edit"
+            value={editCategory ?? undefined}
+          />
+
           {/* DESKTOP */}
           <div className="hidden w-full overflow-auto rounded-2xl border border-border md:block">
-            <CategoryDesktopTable categories={currentCategories} />
+            <CategoryDesktopTable
+              categories={currentCategories}
+              onEdit={handleEdit}
+            />
           </div>
 
           {/* MOBILE */}
           <div className="w-full overflow-hidden md:hidden">
-            <CategoryMobileList categories={currentCategories} />
+            <CategoryMobileList
+              categories={currentCategories}
+              onEdit={handleEdit}
+            />
           </div>
 
           <div className="flex h-16 w-full items-center justify-between border-t border-border px-5">

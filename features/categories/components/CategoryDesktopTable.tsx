@@ -12,9 +12,10 @@ import { Category } from "../types";
 
 type CategoryDesktopTableProps = {
   categories: Category[];
-}
+  onEdit: (category: Category) => void;
+};
 
-export default function CategoryDesktopTable({ categories }: CategoryDesktopTableProps) {
+export default function CategoryDesktopTable({ categories, onEdit }: CategoryDesktopTableProps) {
   return (
     <Table>
       <TableHeader className="bg-card">
@@ -43,7 +44,11 @@ export default function CategoryDesktopTable({ categories }: CategoryDesktopTabl
             <TableCell className="table-text">{0}</TableCell>
 
             <TableCell>
-              <DashboardActions title="category" size="lg" />
+              <DashboardActions
+                title="category"
+                size="lg"
+                onEdit={() => onEdit(category)}
+              />
             </TableCell>
           </TableRow>
         ))}
