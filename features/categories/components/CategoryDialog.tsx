@@ -68,6 +68,8 @@ export default function CategoryDialog({
         <CategoryForm
           action={action}
           value={value}
+          onOpenChange={onOpenChange}
+
         />
       </DialogContent>
     </Dialog>

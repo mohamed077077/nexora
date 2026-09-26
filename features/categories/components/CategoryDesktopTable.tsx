@@ -8,9 +8,9 @@ import {
 } from "@/shared/ui/table";
 import DashboardActions from "@/shared/components/dashboard/DashboardActions";
 import DashboardImage from "@/shared/components/dashboard/DashboardImage";
-import { Category } from "./data";
+import { Category } from "../types";
 
-interface CategoryDesktopTableProps {
+type CategoryDesktopTableProps = {
   categories: Category[];
 }
 
@@ -29,18 +29,18 @@ export default function CategoryDesktopTable({ categories }: CategoryDesktopTabl
       <TableBody>
         {categories.map((category) => (
           <TableRow
-            key={category.id}
+            key={category._id}
             className="border-0 border-b border-border last:border-b-0 hover:bg-transparent"
           >
             <TableCell className="px-5 py-4">
-              <DashboardImage src={category.image} alt={category.title} />
+              <DashboardImage src={category.iconUrl} alt={category.title} />
             </TableCell>
 
             <TableCell>
               <span className="table-text">{category.title}</span>
             </TableCell>
 
-            <TableCell className="table-text">{category.products}</TableCell>
+            <TableCell className="table-text">{0}</TableCell>
 
             <TableCell>
               <DashboardActions title="category" size="lg" />

@@ -1,7 +1,7 @@
 import "@/shared/styles/globals.css";
 import QueryProvider from '@/providers/query-provider'
-import ReduxProvider from '@/providers/redux-provider';
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Nexora",
@@ -22,9 +22,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <QueryProvider>
-          <ReduxProvider >
             {children}
-          </ReduxProvider>
+            <Toaster richColors position="bottom-right" />
         </QueryProvider>
       </body>
     </html>

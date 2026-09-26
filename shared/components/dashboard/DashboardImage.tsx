@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface DashboardImageProps {
+type DashboardImageProps = {
   src: string;
   alt: string;
 }

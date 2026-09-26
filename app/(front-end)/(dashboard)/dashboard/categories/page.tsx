@@ -1,6 +1,6 @@
 "use client";
 
-import CategoryTable from "@/features/categories/components/CategoryTable";
+import CategoryTable from "@/features/categories/components/CategoryContent";
 import CategoryHeader from "@/features/categories/components/CategoryHeader";
 import { useState } from "react";
 
