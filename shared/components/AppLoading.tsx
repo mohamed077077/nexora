@@ -1,6 +1,6 @@
 export default function AppLoading() {
   return (
-    <div className="flex w-full items-center justify-center py-20">
+    <div className="fixed inset-0 flex items-center justify-center">
       <div className="relative flex items-center justify-center">
         {/* Outer spinning ring */}
         <span className="absolute h-16 w-16 animate-spin rounded-full border-4 border-transparent border-t-primary" />

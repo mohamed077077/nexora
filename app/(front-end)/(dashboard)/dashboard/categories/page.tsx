@@ -1,16 +1,15 @@
 "use client";
 
-import CategoryTable from "@/features/categories/components/CategoryContent";
-import CategoryHeader from "@/features/categories/components/CategoryHeader";
-import { useState } from "react";
+import CategoryContent from "@/features/categories/components/CategoryContent/CategoryContent";
+import CategoryHeader from "@/features/categories/components/CategoryContent/CategoryHeader";
+import CategoryDialog from "@/features/categories/components/CategoryDialog/CategoryDialog";
 
 export default function CategoriesPage() {
-  const [search, setSearch] = useState("");
-
   return (
-    <section className="w-full h-full flex flex-col justify-center items-center gap-6">
-      <CategoryHeader search={search} onSearchChange={setSearch} />
-      <CategoryTable search={search} />
+    <section className="flex h-full w-full flex-col items-center justify-center gap-6">
+      <CategoryHeader />
+      <CategoryContent />
+      <CategoryDialog />
     </section>
   );
 }
