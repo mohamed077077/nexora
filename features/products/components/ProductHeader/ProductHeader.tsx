@@ -1,6 +1,9 @@
-import { Search, Plus } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
+"use client";
+
+import { useState } from "react";
+
+import AppAddButton from "@/shared/components/AppAddButton";
+import AppSearchBar from "@/shared/components/AppSearchBar";
 import {
     Select,
     SelectContent,
@@ -8,23 +11,20 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shared/ui/select";
-import { useState } from "react";
-import ProductDialog from "@/features/products/components/ProductDialog";
+import ProductDialog from "@/features/products/components/ProductDialog/ProductDialog";
 
 export default function ProductHeader() {
     const [isAddProductOpen, setIsAddProductOpen] = useState(false);
+    const [search, setSearch] = useState("");
 
     return (
         <>
             <div className="grid w-full gap-3 lg:flex lg:items-center">
-                {/* Search bar */}
-                <div className="relative min-w-0 lg:flex-1">
-                    <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        placeholder="Search products..."
-                        className="pl-9 h-10"
-                    />
-                </div>
+                <AppSearchBar
+                    value={search}
+                    onChange={setSearch}
+                    placeholder="Search products..."
+                />
 
                 <div className="grid min-w-0 grid-cols-3 gap-3 lg:flex">
                     {/* Select Category */}
@@ -67,29 +67,11 @@ export default function ProductHeader() {
                         </SelectContent>
                     </Select>
                 </div>
-                <Button
-                    aria-label="Add product"
+                <AppAddButton
+                    label="Add Product"
+                    ariaLabel="Add product"
                     onClick={() => setIsAddProductOpen(true)}
-                    className="
-    fixed bottom-6 right-6 z-50 cursor-pointer
-    size-14 rounded-full p-0 shadow-lg
-
-    lg:static
-    lg:h-10
-    lg:w-auto
-    lg:rounded-md
-    lg:px-4
-    lg:shadow-none
-  "
-                >
-                    <Plus className="size-6 lg:size-4" />
-                    <span className="hidden lg:inline">
-                        Add Product
-                    </span>
-                </Button>
-
-
-
+                />
             </div>
 
             <ProductDialog

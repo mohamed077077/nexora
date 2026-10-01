@@ -3,8 +3,8 @@
 import AppSearchBar from "@/shared/components/AppSearchBar";
 import AppAddButton from "@/shared/components/AppAddButton";
 
-import { useCategoryDialogStore } from "../../store/useCategoryDialogStore";
-import { useCategorySearchStore } from "../../store/useCategorySearchStore";
+import { useCategoryDialogStore } from "../store/useCategoryDialogStore";
+import { useCategorySearchStore } from "../store/useCategorySearchStore";
 
 export default function CategoryHeader() {
   const search = useCategorySearchStore((state) => state.search);

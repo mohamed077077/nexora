@@ -2,8 +2,8 @@
 
 import AppAddButton from "@/shared/components/AppAddButton";
 import AppSearchBar from "@/shared/components/AppSearchBar";
-import { useColorDialogStore } from "../../store/useColorDialogStore";
-import { useColorSearchStore } from "../../store/useColorSearchStore";
+import { useColorDialogStore } from "../store/useColorDialogStore";
+import { useColorSearchStore } from "../store/useColorSearchStore";
 
 export default function ColorHeader() {
   const search = useColorSearchStore((state) => state.search);

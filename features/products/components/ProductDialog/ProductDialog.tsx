@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from "@/shared/ui/dialog";
+import AppDialog from "@/shared/components/AppDialog";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -25,17 +21,16 @@ import {
 } from "@/shared/ui/table";
 
 
-import { Plus, Trash2, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import DashboardActions from "@/shared/components/dashboard/DashboardActions";
 import { useState } from "react";
 import VariantDialog from "./VariantDialog";
-import { Product , variants} from "./data";
+import { variants } from "../data";
 
 type ProductDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   action?: "add" | "edit";
-  value?: Product;
 };
 
 
@@ -44,58 +39,16 @@ export default function ProductDialog({
   open,
   onOpenChange,
   action = "add",
-  value,
 }: ProductDialogProps) {
 
   const [isVariantOpen, setIsVariantOpen] = useState(false);
   return (
     <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent
-          showCloseButton={false}
-          className="
-          w-[calc(100%-2rem)]
-          max-w-110
-          gap-0
-          overflow-hidden
-          rounded-2xl
-          border
-          border-border
-          bg-card
-          p-0
-          shadow-xl
-        "
-        >
-          {/* Header */}
-          <div className="flex h-14 items-center justify-between border-b border-border px-3.5">
-            <div className="flex flex-col">
-              <DialogTitle className="text-xl font-medium">
-                {action === "edit" ? "Edit Product" : "Add Product"}
-              </DialogTitle>
-
-
-            </div>
-
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="
-              flex
-              size-8
-              items-center
-              justify-center
-              rounded-md
-              text-foreground
-              icon-hover transition-all 
-              hover:bg-muted
-            "
-              aria-label="Close"
-            >
-              <X className="size-6 stroke-[1.5]" />
-            </button>
-          </div>
-
-          {/* Content */}
+      <AppDialog
+        open={open}
+        onOpenChange={onOpenChange}
+        title={action === "edit" ? "Edit Product" : "Add Product"}
+      >
           <div className="px-3.5 py-3">
             {/* Basic Information */}
             <section>
@@ -297,8 +250,7 @@ export default function ProductDialog({
               </Button>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+      </AppDialog>
       <VariantDialog
         open={isVariantOpen}
         onOpenChange={setIsVariantOpen}
