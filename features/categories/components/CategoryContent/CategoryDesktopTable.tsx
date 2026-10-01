@@ -62,7 +62,7 @@ export default function CategoryDesktopTable({
             </TableCell>
 
             <TableCell className="table-text">
-              {0}
+              {category.productCount}
             </TableCell>
 
             <TableCell>

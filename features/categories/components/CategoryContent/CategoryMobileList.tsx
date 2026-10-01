@@ -29,10 +29,14 @@ export default function CategoryMobileList({
             </h3>
 
             <p className="mt-1 text-[13px] leading-5 text-muted-foreground">
-              {0} Products
+              {category.productCount === 0
+                ? "No products"
+                : category.productCount === 1
+                ? "1 Product"
+                : `${category.productCount} Products`}
             </p>
           </div>
-
+          
           <div className="shrink-0">
             <CategoryActions
               category={category}

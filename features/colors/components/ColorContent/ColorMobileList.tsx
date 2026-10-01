@@ -18,7 +18,11 @@ export default function ColorMobileList({ colors }: ColorMobileListProps) {
               {color.title}
             </h3>
             <p className="mt-1 text-[13px] leading-5 text-muted-foreground">
-              0
+              {color.productCount === 0
+                ? "No products"
+                : color.productCount === 1
+                ? "1 Product"
+                : `${color.productCount} Products`}
             </p>
           </div>
           <div className="shrink-0">

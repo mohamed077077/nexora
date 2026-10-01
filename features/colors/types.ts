@@ -4,6 +4,7 @@ export type Color = {
   _id: string;
   title: string;
   iconUrl: string;
+  productCount: number;
 };
 
 export type ColorSuccessResponse = SuccessResponse<{

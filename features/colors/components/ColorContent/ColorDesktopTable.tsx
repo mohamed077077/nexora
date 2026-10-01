@@ -35,7 +35,7 @@ export default function ColorDesktopTable({ colors }: ColorDesktopTableProps) {
             <TableCell>
               <span className="table-text">{color.title}</span>
             </TableCell>
-            <TableCell className="table-text">0</TableCell>
+            <TableCell className="table-text">{color.productCount}</TableCell>
             <TableCell>
               <ColorActions color={color} size="lg" />
             </TableCell>

@@ -4,6 +4,7 @@ export type Category = {
   _id: string;
   title: string;
   iconUrl: string;
+  productCount: number;
 };
 
 export type CategorySuccessResponse = SuccessResponse<{

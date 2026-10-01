@@ -1,9 +1,36 @@
 import connectDB from "@/lib/db/connect";
+
 import Color from "@/lib/db/models/Color";
+import Product from "@/lib/db/models/Product";
 
 export async function getColors() {
   await connectDB();
-  const colors = await Color.find({}).sort({ createdAt: -1 });
-  return colors;
-}
 
+  const [colors, productCounts] = await Promise.all([
+    Color.find({}).sort({ createdAt: -1 }),
+
+    Product.aggregate([
+      {
+        $unwind: "$variants",
+      },
+      {
+        $group: {
+          _id: "$variants.colorId",
+          count: { $sum: 1 },
+        },
+      },
+    ]),
+  ]);
+
+  const countMap = new Map(
+    productCounts.map((item) => [
+      item._id.toString(),
+      item.count,
+    ])
+  );
+
+  return colors.map((color) => ({
+    ...color.toObject(),
+    productCount: countMap.get(color._id.toString()) ?? 0,
+  }));
+}
