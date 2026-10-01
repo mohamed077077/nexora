@@ -1,5 +1,47 @@
 import mongoose from "mongoose";
 
+const OrderItemSchema = new mongoose.Schema({
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+
+  variant: {
+    colorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Color",
+      required: true,
+    },
+
+    size: {
+      type: mongoose.Schema.Types.Union,
+      of: [
+        Number,
+        { type: String, trim: true, uppercase: true },
+      ],
+      required: true,
+    },
+
+    image: {
+      type: String,
+      required: true,
+    },
+  },
+
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+});
+
 const OrderSchema = new mongoose.Schema(
   {
     customerName: {
@@ -35,10 +77,21 @@ const OrderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["pending", "confirmed", "success", "cancelled"],
+      enum: [
+        "pending",
+        "confirmed",
+        "success",
+        "cancelled",
+      ],
     },
+
+    items: {
+      type: [OrderItemSchema],
+      },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export default mongoose.models.Order || mongoose.model("Order", OrderSchema);

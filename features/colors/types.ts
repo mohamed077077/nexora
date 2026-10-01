@@ -4,7 +4,6 @@ export type Color = {
   _id: string;
   title: string;
   iconUrl: string;
-  variantCount: number;
 };
 
 export type ColorSuccessResponse = SuccessResponse<{

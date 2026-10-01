@@ -18,7 +18,7 @@ export default function ColorMobileList({ colors }: ColorMobileListProps) {
               {color.title}
             </h3>
             <p className="mt-1 text-[13px] leading-5 text-muted-foreground">
-              {color.variantCount} {color.variantCount === 1 ? "Variant" : "Variants"}
+              0
             </p>
           </div>
           <div className="shrink-0">

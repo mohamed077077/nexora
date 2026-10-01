@@ -1,0 +1,81 @@
+import mongoose from "mongoose";
+
+import { AppError } from "@/lib/AppError";
+import connectDB from "@/lib/db/connect";
+
+import Category from "@/lib/db/models/Category";
+import Color from "@/lib/db/models/Color";
+import Product from "@/lib/db/models/Product";
+
+export async function updateProduct(
+  id: string,
+  {
+    title,
+    categoryId,
+    price,
+    variants,
+  }: {
+    title: string;
+    categoryId: string;
+    price: number;
+    variants: {
+      colorId: string;
+      size: string | number;
+      image: string;
+      stock: number;
+    }[];
+  }
+) {
+  await connectDB();
+
+  if (!mongoose.isValidObjectId(id)) {
+    throw new AppError("Invalid product ID", 400);
+  }
+
+  if (!mongoose.isValidObjectId(categoryId)) {
+    throw new AppError("Invalid category ID", 400);
+  }
+
+  if (!variants.length) {
+    throw new AppError("Product must have at least one variant", 400);
+  }
+
+  const invalidColorId = variants.find(
+    (variant) => !mongoose.isValidObjectId(variant.colorId)
+  );
+
+  if (invalidColorId) {
+    throw new AppError("Invalid color ID", 400);
+  }
+
+  const colorIds = [...new Set(variants.map((variant) => variant.colorId))];
+
+  const [product, category, colors] = await Promise.all([
+    Product.findById(id),
+    Category.findById(categoryId),
+    Color.find({
+      _id: { $in: colorIds },
+    }),
+  ]);
+
+  if (!product) {
+    throw new AppError("Product not found", 404);
+  }
+
+  if (!category) {
+    throw new AppError("Category not found", 404);
+  }
+
+  if (colors.length !== colorIds.length) {
+    throw new AppError("One or more colors not found", 404);
+  }
+
+  product.title = title;
+  product.categoryId = categoryId;
+  product.price = price;
+  product.variants = variants;
+
+  await product.save();
+
+  return product;
+}

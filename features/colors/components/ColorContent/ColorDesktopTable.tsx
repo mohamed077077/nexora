@@ -19,7 +19,7 @@ export default function ColorDesktopTable({ colors }: ColorDesktopTableProps) {
         <TableRow className="h-16 border-0 border-b border-border hover:bg-transparent">
           <TableHead className="table-head-cell">Image</TableHead>
           <TableHead className="table-head-cell">Color</TableHead>
-          <TableHead className="table-head-cell">Variants</TableHead>
+          <TableHead className="table-head-cell">Products</TableHead>
           <TableHead className="table-head-cell">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -35,7 +35,7 @@ export default function ColorDesktopTable({ colors }: ColorDesktopTableProps) {
             <TableCell>
               <span className="table-text">{color.title}</span>
             </TableCell>
-            <TableCell className="table-text">{color.variantCount}</TableCell>
+            <TableCell className="table-text">0</TableCell>
             <TableCell>
               <ColorActions color={color} size="lg" />
             </TableCell>
