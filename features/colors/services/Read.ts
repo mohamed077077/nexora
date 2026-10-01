@@ -34,3 +34,16 @@ export async function getColors() {
     productCount: countMap.get(color._id.toString()) ?? 0,
   }));
 }
+
+
+export async function getColorsWithProducts() {
+  await connectDB();
+
+  const colorIds = await Product.distinct("variants.colorId");
+
+  const colors = await Color.find({
+    _id: { $in: colorIds },
+  });
+
+  return colors;
+}

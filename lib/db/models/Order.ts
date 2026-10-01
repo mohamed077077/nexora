@@ -88,9 +88,6 @@ const OrderSchema = new mongoose.Schema(
     items: {
       type: [OrderItemSchema],
       },
-  },
-  {
-    timestamps: true,
   }
 );
 
