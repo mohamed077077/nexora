@@ -3,13 +3,16 @@
 import { useState } from "react";
 
 import AppPagination from "@/shared/components/AppPagination";
-
-import { products } from "../data";
+import type { Product } from "@/features/products/types";
 
 import ProductDesktopTable from "./ProductDesktopTable";
 import ProductMobileList from "./ProductMobileList";
 
-export default function ProductContent() {
+type ProductContentProps = {
+  products: Product[];
+};
+
+export default function ProductContent({ products }: ProductContentProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 4;
   const totalPages = Math.ceil(products.length / productsPerPage);

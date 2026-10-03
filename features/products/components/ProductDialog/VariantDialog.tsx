@@ -18,7 +18,7 @@ import {
 } from "@/shared/ui/select";
 import { Image as ImageIcon, X } from "lucide-react";
 import { useState } from "react";
-import { Variant } from "../data";
+import { Variant } from "@/features/products/types";
 
 type VariantDialogProps = {
   open: boolean;
