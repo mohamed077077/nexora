@@ -16,6 +16,7 @@ import type { Category } from "@/features/categories/types";
 import type { Color } from "@/features/colors/types";
 import CategoryFilter from "./CategoryFilter";
 import ColorFilter from "./ColorFilter";
+import { useProductFilterStore } from "../../store/useProductFilterStore";
 
 type ProductHeaderProps = {
     categories: Category[];
@@ -27,7 +28,11 @@ export default function ProductHeader({
     colors,
 }: ProductHeaderProps) {
     const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-    const [search, setSearch] = useState("");
+    
+    const search = useProductFilterStore((state) => state.search);
+    const setSearch = useProductFilterStore((state) => state.setSearch);
+    const price = useProductFilterStore((state) => state.price);
+    const setPrice = useProductFilterStore((state) => state.setPrice);
 
     return (
         <>
@@ -46,8 +51,8 @@ export default function ProductHeader({
                     {colors.length > 0 && <ColorFilter colors={colors} />}
 
                     {categories.length > 0 && colors.length > 0 && (
-                        <Select>
-                            <SelectTrigger className="h-11 min-w-0 w-full lg:h-10 lg:w-[140px] lg:shrink-0">
+                        <Select value={price} onValueChange={setPrice as any}>
+                            <SelectTrigger className="h-11 min-w-0 w-full lg:h-10 lg:w-35 lg:shrink-0">
                                 <SelectValue placeholder="Price" />
                             </SelectTrigger>
 

@@ -51,14 +51,7 @@ export default function Product() {
   return (
     <section className="flex h-full w-full flex-col items-center justify-center gap-6">
       <ProductHeader categories={categories} colors={colors} />
-      {products.length === 0 ? (
-        <Empty
-          title="No Products Yet"
-          description="You haven't added any products. Click 'Add Product' to get started."
-        />
-      ) : (
-        <ProductContent products={products} />
-      )}
+      <ProductContent products={products} />
     </section>
   );
 }

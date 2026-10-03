@@ -8,6 +8,7 @@ const Logo = () => {
         alt="Nexora"
         fill
         priority
+        unoptimized
         className="object-contain"
       />
     </div>

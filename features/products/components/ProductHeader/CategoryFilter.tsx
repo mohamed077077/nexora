@@ -8,15 +8,19 @@ import {
     SelectValue,
 } from "@/shared/ui/select";
 import type { Category } from "@/features/categories/types";
+import { useProductFilterStore } from "../../store/useProductFilterStore";
 
 type CategoryFilterProps = {
     categories: Category[];
 };
 
 export default function CategoryFilter({ categories }: CategoryFilterProps) {
+    const category = useProductFilterStore((state) => state.category);
+    const setCategory = useProductFilterStore((state) => state.setCategory);
+
     return (
-        <Select>
-            <SelectTrigger className="h-11 w-full lg:h-10 lg:w-[140px] lg:shrink-0">
+        <Select value={category} onValueChange={setCategory as any}>
+            <SelectTrigger className="h-11 min-w-0 w-full lg:h-10 lg:w-35 lg:shrink-0">
                 <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>

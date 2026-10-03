@@ -8,15 +8,19 @@ import {
     SelectValue,
 } from "@/shared/ui/select";
 import type { Color } from "@/features/colors/types";
+import { useProductFilterStore } from "../../store/useProductFilterStore";
 
 type ColorFilterProps = {
     colors: Color[];
 };
 
 export default function ColorFilter({ colors }: ColorFilterProps) {
+    const color = useProductFilterStore((state) => state.color);
+    const setColor = useProductFilterStore((state) => state.setColor);
+
     return (
-        <Select>
-            <SelectTrigger className="h-11 min-w-0 w-full lg:h-10 lg:w-[140px] lg:shrink-0">
+        <Select value={color} onValueChange={setColor as any}>
+            <SelectTrigger className="h-11 min-w-0 w-full lg:h-10 lg:w-35 lg:shrink-0">
                 <SelectValue placeholder="Color" />
             </SelectTrigger>
             <SelectContent>
