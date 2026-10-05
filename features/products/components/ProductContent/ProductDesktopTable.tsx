@@ -11,7 +11,7 @@ import DashboardImage from "@/shared/components/dashboard/DashboardImage";
 
 import ProductActions from "../ProductDialog/ProductActions";
 import type { Product } from "@/features/products/types";
-import { useCategoriesWithProducts } from "@/features/categories/hooks/useCategories";
+import { useCategories} from "@/features/categories/hooks/useCategories";
 
 type ProductDesktopTableProps = {
   products: Product[];
@@ -20,7 +20,9 @@ type ProductDesktopTableProps = {
 export default function ProductDesktopTable({
   products,
 }: ProductDesktopTableProps) {
-  const { data: categoriesData } = useCategoriesWithProducts();
+  const { data: categoriesData } = useCategories(true);
+  const categories = categoriesData ?? [];
+
   return (
     <Table>
       <TableHeader className="bg-card">
@@ -36,7 +38,7 @@ export default function ProductDesktopTable({
 
       <TableBody>
         {products.map((product) => {
-          const category = categoriesData?.categories.find(
+          const category = categories.find(
             (c) => c._id === product.categoryId
           );
           const firstVariant = product.variants[0];
@@ -73,7 +75,7 @@ export default function ProductDesktopTable({
               </TableCell>
 
               <TableCell>
-                <ProductActions title="product" size="lg" />
+                <ProductActions product={product} size="lg" />
               </TableCell>
             </TableRow>
           );

@@ -2,12 +2,12 @@
 
 import ProductContent from "./ProductContent/ProductContent";
 import ProductHeader from "./ProductHeader/ProductHeader";
+import ProductDialog from "./ProductDialog/ProductDialog";
 import AppLoading from "@/shared/components/AppLoading";
 import AppError from "@/shared/components/AppError";
-import { Empty } from "@/shared/components/AppEmptyState";
 import { useProducts } from "@/features/products/hooks/useProducts";
-import { useColorsWithProducts } from "@/features/colors/hooks/useColors";
-import { useCategoriesWithProducts } from "@/features/categories/hooks/useCategories";
+import { useColors } from "@/features/colors/hooks/useColors";
+import { useCategories} from "@/features/categories/hooks/useCategories";
 
 export default function Product() {
   const {
@@ -22,14 +22,14 @@ export default function Product() {
     isLoading: colorsLoading,
     isError: colorsError,
     error: colorsErr,
-  } = useColorsWithProducts();
+  } = useColors(true);
 
   const {
     data: categoriesData,
     isLoading: categoriesLoading,
     isError: categoriesError,
     error: categoriesErr,
-  } = useCategoriesWithProducts();
+  } = useCategories(true);
 
   if (productsLoading || colorsLoading || categoriesLoading) {
     return <AppLoading />;
@@ -45,13 +45,14 @@ export default function Product() {
   }
 
   const products = productsData?.products ?? [];
-  const colors = colorsData?.colors ?? [];
-  const categories = categoriesData?.categories ?? [];
+  const colors = colorsData ?? [];
+  const categories = categoriesData ?? [];
 
   return (
     <section className="flex h-full w-full flex-col items-center justify-center gap-6">
       <ProductHeader categories={categories} colors={colors} />
       <ProductContent products={products} />
+      <ProductDialog />
     </section>
   );
 }

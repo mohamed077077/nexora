@@ -3,11 +3,12 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Image as ImageIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
+import AppImagePreview from "@/shared/components/AppImagePreview";
 
 import {
   categorySchema,
@@ -64,7 +65,7 @@ export default function CategoryForm({
           </h2>
 
           {error instanceof Error && (
-            <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-500">
+            <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-destructive">
               {error.message}
             </div>
           )}
@@ -86,52 +87,20 @@ export default function CategoryForm({
               />
 
               {errors.title && (
-                <p className="text-xs text-red-500">
+                <p className="text-xs text-destructive">
                   {errors.title.message}
                 </p>
               )}
             </div>
 
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="iconUrl"
-                className="text-sm font-medium"
-              >
-                Icon URL
-              </Label>
-
-              <Input
-                id="iconUrl"
-                placeholder="Enter image URL"
-                {...register("iconUrl")}
-                aria-invalid={!!errors.iconUrl}
-              />
-
-              {errors.iconUrl && (
-                <p className="text-xs text-red-500">
-                  {errors.iconUrl.message}
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="relative flex h-32 w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-border bg-muted/50">
-                {iconUrl && !errors.iconUrl ? (
-                  <img
-                    src={iconUrl}
-                    alt="Category icon preview"
-                    className="h-full w-full object-contain p-2"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center justify-center text-muted-foreground">
-                    <ImageIcon className="mb-2 size-8 opacity-50" />
-                    <span className="text-xs">
-                      No image provided
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
+            <AppImagePreview
+              id="iconUrl"
+              label="Icon URL"
+              imageUrl={iconUrl}
+              error={errors.iconUrl?.message}
+              alt="Category icon preview"
+              {...register("iconUrl")}
+            />
           </div>
         </section>
 

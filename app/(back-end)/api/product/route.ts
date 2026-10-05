@@ -4,6 +4,7 @@ import { AppError } from "@/lib/AppError";
 
 import { createProduct } from "@/features/products/services/Create";
 import { getProducts } from "@/features/products/services/Read";
+import { productSchema } from "@/features/products/validations/productSchema";
 
 import type {
   ProductErrorResponse,
@@ -13,9 +14,19 @@ import type {
 
 export async function POST(request: Request) {
   try {
-    const payload = await request.json();
+    const body = await request.json();
+    const payload = productSchema.safeParse(body);
+    if (!payload.success) {
+      throw new AppError(
+        payload.error.issues[0]?.message ?? "Invalid product data",
+        400
+      );
+    }
 
-    const product = await createProduct(payload);
+    const product = await createProduct({
+      ...payload.data,
+      variants: body.variants ?? [],
+    });
 
     return NextResponse.json<ProductSuccessResponse>(
       {

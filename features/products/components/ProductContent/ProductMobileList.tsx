@@ -2,7 +2,7 @@ import DashboardImage from "@/shared/components/dashboard/DashboardImage";
 
 import type { Product } from "@/features/products/types";
 import ProductActions from "../ProductDialog/ProductActions";
-import { useCategoriesWithProducts } from "@/features/categories/hooks/useCategories";
+import { useCategories } from "@/features/categories/hooks/useCategories";
 
 type ProductMobileListProps = {
   products: Product[];
@@ -11,12 +11,13 @@ type ProductMobileListProps = {
 export default function ProductMobileList({
   products,
 }: ProductMobileListProps) {
-  const { data: categoriesData } = useCategoriesWithProducts();
+  const { data: categoriesData } = useCategories(true);
+  const categories = categoriesData ?? [];
 
   return (
     <div>
       {products.map((product) => {
-        const category = categoriesData?.categories.find(
+        const category = categories.find(
           (c) => c._id === product.categoryId
         );
         const firstVariant = product.variants[0];
@@ -54,7 +55,7 @@ export default function ProductMobileList({
             </div>
 
             <div className="shrink-0">
-              <ProductActions title="product" size="default" />
+              <ProductActions product={product} size="default" />
             </div>
           </div>
         );

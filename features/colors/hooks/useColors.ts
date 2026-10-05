@@ -1,18 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { getColors } from "../http/GetColors";
-import { getColorsWithProducts } from "../http/getColorsWithProducts";
 
-export function useColors() {
+export function useColors(isFilter = false) {
   return useQuery({
     queryKey: ["colors"],
     queryFn: getColors,
-  });
-}
 
+    select: (data) => {
+      const colors = data.colors;
 
-export function useColorsWithProducts() {
-  return useQuery({
-    queryKey: ["colors-with-products"],
-    queryFn: getColorsWithProducts,
+      if (isFilter) {
+        return colors.filter(
+          (color) => color.productCount > 0
+        );
+      }
+
+      return colors;
+    },
   });
 }

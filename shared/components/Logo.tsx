@@ -9,7 +9,6 @@ const Logo = () => {
         fill
         priority
         unoptimized
-        className="object-contain"
       />
     </div>
   );

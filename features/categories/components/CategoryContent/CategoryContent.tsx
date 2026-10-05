@@ -52,7 +52,7 @@ export default function CategoryContent() {
     return null;
   }
 
-  const categories = data.categories;
+  const categories = data;
 
   if (categories.length === 0) {
     return (

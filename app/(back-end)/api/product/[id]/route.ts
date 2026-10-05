@@ -4,6 +4,7 @@ import { AppError } from "@/lib/AppError";
 
 import { deleteProduct } from "@/features/products/services/Delete";
 import { updateProduct } from "@/features/products/services/Update";
+import { productSchema } from "@/features/products/validations/productSchema";
 
 import type {
   ProductErrorResponse,
@@ -20,10 +21,20 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
+    const body = await request.json();
 
-    const payload = await request.json();
+    const payload = productSchema.safeParse(body);
+    if (!payload.success) {
+      throw new AppError(
+        payload.error.issues[0]?.message ?? "Invalid product data",
+        400
+      );
+    }
 
-    const product = await updateProduct(id, payload);
+    const product = await updateProduct(id, {
+      ...payload.data,
+      variants: body.variants ?? [],
+    });
 
     return NextResponse.json<ProductSuccessResponse>({
       success: true,

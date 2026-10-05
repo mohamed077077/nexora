@@ -20,11 +20,11 @@ export default function ColorContent() {
     return <AppError message={error instanceof Error ? error.message : "Failed to load colors."} />;
   }
   if (!data) return null;
-  if (data.colors.length === 0) {
+  if (data.length === 0) {
     return <Empty title="No Colors Yet" description="Get started by adding your first color." />;
   }
 
-  const filteredColors = data.colors.filter((color) =>
+  const filteredColors = data.filter((color) =>
     color.title.toLowerCase().includes(search.toLowerCase())
   );
   if (filteredColors.length === 0) {

@@ -1,260 +1,45 @@
 "use client";
 
 import AppDialog from "@/shared/components/AppDialog";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { Label } from "@/shared/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/shared/ui/table";
+import { useProductDialogStore } from "@/features/products/store/useProductDialogStore";
+import AddProductForm from "./forms/AddProductForm";
+import EditProductForm from "./forms/EditProductForm";
+import DeleteProductContent from "./DeleteProductContent";
+import VariantDialog from "../VariantDialog/VariantDialog";
 
+export default function ProductDialog() {
+  const dialog = useProductDialogStore((state) => state.dialog);
+  const close = useProductDialogStore((state) => state.close);
 
-import { Plus } from "lucide-react";
-import DashboardActions from "@/shared/components/dashboard/DashboardActions";
-import { useState } from "react";
-import VariantDialog from "./VariantDialog";
-import { variants } from "../data";
+  if (!dialog) return null;
 
-type ProductDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  action?: "add" | "edit";
-};
+  const renderContent = () => {
+    switch (dialog.type) {
+      case "add-product":
+        return (
+          <AppDialog open onOpenChange={(open) => !open && close()} title="Add Product">
+            <AddProductForm />
+          </AppDialog>
+        );
+      case "edit-product":
+        return (
+          <AppDialog open onOpenChange={(open) => !open && close()} title="Edit Product">
+            <EditProductForm product={dialog.product} />
+          </AppDialog>
+        );
+      case "delete-product":
+        return (
+          <AppDialog open onOpenChange={(open) => !open && close()} title="Delete Product">
+            <DeleteProductContent product={dialog.product} />
+          </AppDialog>
+        );
+    }
+  };
 
-
-
-export default function ProductDialog({
-  open,
-  onOpenChange,
-  action = "add",
-}: ProductDialogProps) {
-
-  const [isVariantOpen, setIsVariantOpen] = useState(false);
   return (
     <>
-      <AppDialog
-        open={open}
-        onOpenChange={onOpenChange}
-        title={action === "edit" ? "Edit Product" : "Add Product"}
-      >
-          <div className="px-3.5 py-3">
-            {/* Basic Information */}
-            <section>
-              <h2 className="mb-4 text-base font-medium">
-                Basic Information
-              </h2>
-
-              <div className="grid grid-cols-[1fr_116px] gap-x-6 gap-y-5">
-                {/* Product title */}
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="product-title"
-                    className="text-sm font-medium"
-                  >
-                    Product Title
-                  </Label>
-
-                  <Input
-                    id="product-title"
-                    placeholder="Enter product title"
-                    className="h-9 rounded-md text-xs"
-                  />
-                </div>
-
-                {/* Category */}
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="product-category"
-                    className="text-sm font-medium"
-                  >
-                    Category
-                  </Label>
-
-                  <Select>
-                    <SelectTrigger
-                      id="product-category"
-                      className="h-9 w-full rounded-md text-sm"
-                    >
-                      <SelectValue placeholder="Categories" />
-                    </SelectTrigger>
-
-                    <SelectContent>
-                      <SelectItem value="electronics">
-                        Electronics
-                      </SelectItem>
-                      <SelectItem value="clothing">Clothing</SelectItem>
-                      <SelectItem value="shoes">Shoes</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Price */}
-                <div className="w-50 space-y-1.5">
-                  <Label
-                    htmlFor="base-price"
-                    className="text-sm font-medium"
-                  >
-                    Base Price
-                  </Label>
-
-                  <Input
-                    id="base-price"
-                    defaultValue="$0.00"
-                    className="h-9 rounded-md text-sm"
-                  />
-                </div>
-              </div>
-            </section>
-
-            {/* Divider */}
-            <div className="my-4 border-t border-border" />
-
-            {/* Variants */}
-            <section>
-              <h2 className="mb-4 text-base font-medium">
-                Variants
-              </h2>
-
-              {/* Variant headings */}
-              <Table className=" w-full ">
-                <TableHeader>
-                  <TableRow className="border-0 hover:bg-transparent">
-                    <TableHead className="h-8 p-0 text-center text-sm font-medium">
-                      Colors
-                    </TableHead>
-
-                    <TableHead className="h-8 p-0 text-center text-sm font-medium">
-                      Size
-                    </TableHead>
-
-                    <TableHead className="h-8 p-0 text-center text-sm font-medium">
-                      Stock
-                    </TableHead>
-
-                    <TableHead className="h-8 p-0 text-center text-sm font-medium">
-                      Actions
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-
-                <TableBody>
-                  {variants.map((variant) => (
-                    <TableRow
-                      key={variant.id}
-                      className="border-0 hover:bg-transparent"
-                    >
-                      {/* Color */}
-                      <TableCell className="text-center">
-                        <div className="flex justify-center">
-                          <div
-                            className="
-                flex
-                h-6
-                min-w-16
-                w-fit
-                items-center
-                justify-center
-                gap-1.5
-                rounded-md
-                border
-                border-border
-                bg-background
-                px-2
-              "
-                          >
-                            <span
-                              className={`size-2.5 rounded-full ${variant.colorClass}`}
-                            />
-
-                            <span className="text-xs font-medium">
-                              {variant.color}
-                            </span>
-                          </div>
-                        </div>
-                      </TableCell>
-
-                      {/* Size */}
-                      <TableCell className="text-center text-sm">
-                        {variant.size}
-                      </TableCell>
-
-                      {/* Stock */}
-                      <TableCell className="text-center text-sm">
-                        {variant.stock}
-                      </TableCell>
-
-                      {/* Actions */}
-                      <TableCell>
-                        <div className="flex justify-center">
-                          <DashboardActions
-                            title={`${variant.color} variant`}
-                            size="sm"
-                          />
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-
-              {/* Add Variant */}
-              <Button
-                type="button"
-                onClick={() => setIsVariantOpen(true)}
-                className="
-                mt-5
-                h-9
-                rounded-md
-                px-3
-                text-sm
-                font-medium cursor-pointer
-              "
-              >
-                <Plus className="size-4" />
-                Add Variant
-              </Button>
-            </section>
-
-            {/* Footer divider */}
-            <div className="my-4 border-t border-border" />
-
-            {/* Footer */}
-            <div className="flex items-center justify-between">
-              <Button
-                type="button"
-                variant="outline"
-                className="h-9 rounded-md px-3.5 text-sm font-medium cursor-pointer"
-                onClick={() => onOpenChange(false)}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                type="button"
-                variant="outline"
-                className="h-9 rounded-md px-3.5 text-sm font-medium cursor-pointer"
-              >
-                {action === "edit" ? "Save Changes" : "Save Product"}
-              </Button>
-            </div>
-          </div>
-      </AppDialog>
-      <VariantDialog
-        open={isVariantOpen}
-        onOpenChange={setIsVariantOpen}
-      />
+      {renderContent()}
+      <VariantDialog />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { ErrorResponse, SuccessResponse } from "@/shared/types/Response";
+import type { ProductFormValues } from "./validations/productSchema";
 
 export type Variant = {
   colorId: string;
@@ -14,6 +15,11 @@ export type Product = {
   price: number;
   variants: Variant[];
 };
+
+export type ProductPayload = ProductFormValues & {
+  variants: Variant[];
+};
+
 
 export type ProductSuccessResponse = SuccessResponse<{
   message: string;

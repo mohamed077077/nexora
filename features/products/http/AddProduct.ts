@@ -1,15 +1,23 @@
 import { AppError } from "@/lib/AppError";
 import type { ProductErrorResponse, ProductSuccessResponse } from "../types";
 import type { ProductFormValues } from "../validations/productSchema";
+import { useVariantStore } from "../store/useProductStore";
+
 
 export async function addProduct(
   data: ProductFormValues
 ): Promise<ProductSuccessResponse["data"]> {
   try {
+    
+    const { draft } = useVariantStore.getState();
+    const payload = {
+      ...data,
+      variants: draft ?? [],
+    };
     const response = await fetch("/api/product", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
     });
     const result = (await response.json()) as ProductSuccessResponse | ProductErrorResponse;
 

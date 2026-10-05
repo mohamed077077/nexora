@@ -2,12 +2,13 @@
 
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Image as ImageIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { colorSchema, type ColorFormValues } from "../../validations/colorSchema";
+import AppImagePreview from "@/shared/components/AppImagePreview";
 
 type ColorFormProps = {
   defaultValues?: ColorFormValues;
@@ -49,7 +50,7 @@ export default function ColorForm({
         <section>
           <h2 className="mb-4 text-base font-medium">Color Details</h2>
           {error instanceof Error && (
-            <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-500">{error.message}</div>
+            <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-destructive">{error.message}</div>
           )}
           <div className="flex flex-col gap-5">
             <div className="space-y-1.5">
@@ -60,28 +61,16 @@ export default function ColorForm({
                 {...register("title")}
                 aria-invalid={!!errors.title}
               />
-              {errors.title && <p className="text-xs text-red-500">{errors.title.message}</p>}
+              {errors.title && <p className="text-xs text-destructive">{errors.title.message}</p>}
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="iconUrl" className="text-sm font-medium">Icon URL</Label>
-              <Input
-                id="iconUrl"
-                placeholder="Enter image URL"
-                {...register("iconUrl")}
-                aria-invalid={!!errors.iconUrl}
-              />
-              {errors.iconUrl && <p className="text-xs text-red-500">{errors.iconUrl.message}</p>}
-            </div>
-            <div className="relative flex h-32 w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-border bg-muted/50">
-              {iconUrl && !errors.iconUrl ? (
-                <img src={iconUrl} alt="Color icon preview" className="h-full w-full object-contain p-2" />
-              ) : (
-                <div className="flex flex-col items-center justify-center text-muted-foreground">
-                  <ImageIcon className="mb-2 size-8 opacity-50" />
-                  <span className="text-xs">No image provided</span>
-                </div>
-              )}
-            </div>
+            <AppImagePreview
+              id="iconUrl"
+              label="Icon URL"
+              imageUrl={iconUrl}
+              error={errors.iconUrl?.message}
+              alt="Color icon preview"
+              {...register("iconUrl")}
+            />
           </div>
         </section>
         <div className="my-4 border-t border-border" />
