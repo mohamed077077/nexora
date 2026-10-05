@@ -1,5 +1,6 @@
 import type { ErrorResponse, SuccessResponse } from "@/shared/types/Response";
 import type { ProductFormValues } from "./validations/productSchema";
+import type { Gender } from "./validations/productSchema";
 
 export type Variant = {
   colorId: string;
@@ -13,6 +14,7 @@ export type Product = {
   title: string;
   categoryId: string;
   price: number;
+  gender: Gender;
   variants: Variant[];
 };
 

@@ -47,6 +47,12 @@ const ProductSchema = new mongoose.Schema({
     min: 0,
   },
 
+  gender: {
+    type: String,
+    enum: ["men", "women", "both"],
+    default: "both",
+  },
+
   variants: {
     type: [VariantSchema],
   },

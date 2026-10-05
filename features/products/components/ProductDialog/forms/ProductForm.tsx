@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus } from "lucide-react";
-import { toast } from "sonner";
 
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -12,7 +10,6 @@ import { Button } from "@/shared/ui/button";
 import AppSelect from "@/shared/components/AppSelect";
 
 import { useCategories } from "@/features/categories/hooks/useCategories";
-import { useVariantStore } from "@/features/products/store/useProductStore";
 import { useVariantDialogStore } from "@/features/products/store/useVariantDialogStore";
 
 import VariantTable from "../../VariantDialog/VariantTable";
@@ -44,6 +41,30 @@ export default function ProductForm({
 
   const openAddVariant = useVariantDialogStore((state) => state.openAddVariant);
 
+  const genderOptions = [
+    {
+      _id: "men",
+      title: "Men",
+      // Blue boy (Mars) icon
+      iconUrl:
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10' cy='14' r='5'/%3E%3Cline x1='21' y1='3' x2='15' y2='9'/%3E%3Cpolyline points='16 3 21 3 21 8'/%3E%3C/svg%3E",
+    },
+    {
+      _id: "women",
+      title: "Women",
+      // Pink girl (Venus) icon
+      iconUrl:
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ec4899' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='5'/%3E%3Cline x1='12' y1='13' x2='12' y2='21'/%3E%3Cline x1='9' y1='18' x2='15' y2='18'/%3E%3C/svg%3E",
+    },
+    {
+      _id: "both",
+      title: "Both",
+      // Purple users icon
+      iconUrl:
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E",
+    },
+  ];
+
   const {
     register,
     handleSubmit,
@@ -57,6 +78,7 @@ export default function ProductForm({
     defaultValues: {
       title: defaultValues?.title ?? "",
       categoryId: defaultValues?.categoryId ?? "",
+      gender: defaultValues?.gender ?? "both",
       price: defaultValues?.price,
     },
   });
@@ -125,7 +147,7 @@ export default function ProductForm({
             {/* Price */}
             <div className="w-50 space-y-1.5">
               <Label htmlFor="price">
-                Base Price
+                Price
               </Label>
 
               <Input
@@ -146,6 +168,29 @@ export default function ProductForm({
                 </p>
               )}
             </div>
+
+            {/* Gender */}
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field, fieldState }) => (
+                <AppSelect
+                  id="gender"
+                  title="Gender"
+                  placeholder="Select gender"
+                  data={genderOptions}
+                  value={field.value}
+                  onValueChange={(val) => {
+                    field.onChange(val);
+                    field.onBlur();
+                  }}
+                  onOpenChange={(open) => {
+                    if (!open) field.onBlur();
+                  }}
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
 
           </div>
         </section>
