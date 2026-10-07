@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { useVariantStore } from "@/features/products/store/useProductStore";
+import { useVariantStore } from "@/features/products/store/useDraftVariantStore";
 import { useVariantDialogStore } from "@/features/products/store/useVariantDialogStore";
 import type { VariantFormValues } from "@/features/products/validations/variantSchema";
 import VariantForm from "./VariantForm";
@@ -12,15 +12,21 @@ export default function AddVariantForm() {
   const draft = useVariantStore((state) => state.draft);
 
   const handleSubmit = (data: VariantFormValues) => {
-    const hasSameColor = draft?.some((v) => v.colorId === data.colorId);
-
-    if (hasSameColor) {
-      toast.error("A variant with this color already exists");
+    
+    const hasDuplicate = draft?.some(
+      (variant) =>
+        variant.color === data.color &&
+        variant.size === data.size &&
+        variant.colorName === data.colorName
+    );
+    if (hasDuplicate) {
+      toast.error("A variant with this color and size already exists");
       return;
     }
 
     const variant = {
-      colorId: data.colorId,
+      color: data.color,
+      colorName: data.colorName,
       size: data.size,
       image: data.image,
       stock: Number(data.stock),

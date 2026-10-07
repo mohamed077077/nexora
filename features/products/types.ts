@@ -1,9 +1,9 @@
 import type { ErrorResponse, SuccessResponse } from "@/shared/types/Response";
-import type { ProductFormValues } from "./validations/productSchema";
 import type { Gender } from "./validations/productSchema";
 
 export type Variant = {
-  colorId: string;
+  color: string;
+  colorName: string;
   size: string | number;
   image: string;
   stock: number;
@@ -18,9 +18,6 @@ export type Product = {
   variants: Variant[];
 };
 
-export type ProductPayload = ProductFormValues & {
-  variants: Variant[];
-};
 
 
 export type ProductSuccessResponse = SuccessResponse<{

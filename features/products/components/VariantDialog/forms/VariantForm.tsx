@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import AppImagePreview from "@/shared/components/AppImagePreview";
-import AppSelect from "@/shared/components/AppSelect";
 
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -15,8 +14,6 @@ import {
   variantSchema,
   type VariantFormValues,
 } from "../../../validations/variantSchema";
-
-import { useColors } from "@/features/colors/hooks/useColors";
 
 type VariantFormProps = {
   defaultValues?: Partial<VariantFormValues>;
@@ -38,53 +35,92 @@ export default function VariantForm({
     handleSubmit,
     reset,
     watch,
-    control,
     formState: { errors },
   } = useForm<VariantFormValues>({
     resolver: zodResolver(variantSchema),
     mode: "onTouched",
 
     defaultValues: {
-      colorId: defaultValues?.colorId ?? "",
+      color: defaultValues?.color ?? "#000000",
+      colorName: defaultValues?.colorName ?? "",
       size: defaultValues?.size ?? "",
       image: defaultValues?.image ?? "",
       stock: defaultValues?.stock,
     },
   });
 
-  const { data: colorsData } = useColors();
-
-  const colors = colorsData ?? [];
-
+  const color = watch("color");
   const imageUrl = watch("image");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-4 px-3.5 py-4">
-        <Controller
-          name="colorId"
-          control={control}
-          render={({ field, fieldState }) => (
-            <AppSelect
-              id="variant-color"
-              title="Color"
-              placeholder="Select color"
-              data={colors}
-              value={field.value}
-              onValueChange={(val) => {
-                field.onChange(val);
-                field.onBlur();
-              }}
-              onOpenChange={(open) => {
-                if (!open) {
-                  field.onBlur();
-                }
-              }}
-              error={fieldState.error?.message}
-            />
-          )}
-        />
+        {/* Color + Color Name */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Color */}
+          <div className="space-y-1.5">
+            <Label
+              htmlFor="variant-color"
+              className="text-sm font-medium"
+            >
+              Color
+            </Label>
 
+            <div className="flex h-9 items-center gap-3 rounded-md border border-input px-2.5">
+              <div className="relative size-6 shrink-0">
+                <span
+                  className="block size-6 rounded-full border border-border"
+                  style={{
+                    backgroundColor: color || "#000000",
+                  }}
+                />
+
+                <Input
+                  id="variant-color"
+                  type="color"
+                  {...register("color")}
+                  aria-invalid={!!errors.color}
+                  className="absolute inset-0 size-6 cursor-pointer rounded-full border-0 p-0 opacity-0"
+                />
+              </div>
+
+              <span className="truncate text-xs font-medium uppercase text-muted-foreground">
+                {color || "#000000"}
+              </span>
+            </div>
+
+            {errors.color && (
+              <p className="text-xs text-destructive">
+                {errors.color.message}
+              </p>
+            )}
+          </div>
+
+          {/* Color Name */}
+          <div className="space-y-1.5">
+            <Label
+              htmlFor="variant-color-name"
+              className="text-sm font-medium"
+            >
+              Color Name
+            </Label>
+
+            <Input
+              id="variant-color-name"
+              type="text"
+              placeholder="Red"
+              {...register("colorName")}
+              aria-invalid={!!errors.colorName}
+              className="h-9 rounded-md text-sm"
+            />
+
+            {errors.colorName && (
+              <p className="text-xs text-destructive">
+                {errors.colorName.message}
+              </p>
+            )}
+          </div>
+        </div>
 
         {/* Size + Stock */}
         <div className="grid grid-cols-2 gap-3">

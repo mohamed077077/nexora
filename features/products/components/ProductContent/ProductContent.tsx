@@ -47,7 +47,7 @@ export default function ProductContent({ products }: ProductContentProps) {
     }
     
     // 3. Color
-    if (color !== "all" && !product.variants.some((v) => v.colorId === color)) {
+    if (color !== "all" && !product.variants.some((v) => v.color === color)) {
       return false;
     }
     

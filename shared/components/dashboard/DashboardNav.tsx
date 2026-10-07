@@ -7,9 +7,7 @@ import Logout from "@/features/auth/components/Logout";
 import {
   LayoutGrid,
   Package,
-  Palette,
   ShoppingCart,
-  X,
   Menu
 } from "lucide-react";
 
@@ -18,11 +16,6 @@ export const navigationItems = [
     label: "Products",
     href: "/dashboard/products",
     icon: Package,
-  },
-  {
-    label: "Colors",
-    href: "/dashboard/colors",
-    icon: Palette,
   },
   {
     label: "Categories",

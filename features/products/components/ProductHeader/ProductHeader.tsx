@@ -13,7 +13,6 @@ import {
 import { Label } from "@/shared/ui/label";
 
 import type { Category } from "@/features/categories/types";
-import type { Color } from "@/features/colors/types";
 
 import CategoryFilter from "./CategoryFilter";
 import ColorFilter from "./ColorFilter";
@@ -21,9 +20,15 @@ import ColorFilter from "./ColorFilter";
 import { useProductFilterStore } from "../../store/useProductFilterStore";
 import { useProductDialogStore } from "../../store/useProductDialogStore";
 
+type ProductColor = {
+  _id: string;
+  title: string;
+  count: number;
+};
+
 type ProductHeaderProps = {
   categories: Category[];
-  colors: Color[];
+  colors: ProductColor[];
 };
 
 const PRICE_OPTIONS = [
@@ -76,7 +81,7 @@ export default function ProductHeader({
       />
 
       <div className="grid min-w-0 grid-cols-3 gap-3 lg:flex">
-        {hasCategories && (
+        {hasColors && (
           <CategoryFilter categories={categories} />
         )}
 

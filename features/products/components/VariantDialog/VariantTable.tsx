@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 import DashboardActions from "@/shared/components/dashboard/DashboardActions";
-import { useVariantStore } from "@/features/products/store/useProductStore";
+import { useVariantStore } from "@/features/products/store/useDraftVariantStore";
 import { useVariantDialogStore } from "@/features/products/store/useVariantDialogStore";
 import { useColors } from "@/features/colors/hooks/useColors";
 import type { Variant } from "@/features/products/types";
@@ -25,15 +25,13 @@ export default function VariantTable({ variants: propsVariants }: VariantTablePr
   const openEditVariant = useVariantDialogStore((state) => state.openEditVariant);
   const openDeleteVariant = useVariantDialogStore((state) => state.openDeleteVariant);
 
-  const { data: colorsData } = useColors();
-  const colors = colorsData ?? [];
 
   return (
     <Table className="w-full">
       <TableHeader>
         <TableRow className="border-0 hover:bg-transparent">
           <TableHead className="h-8 p-0 text-center text-sm font-medium">
-            Colors
+            Color
           </TableHead>
 
           <TableHead className="h-8 p-0 text-center text-sm font-medium">
@@ -62,11 +60,9 @@ export default function VariantTable({ variants: propsVariants }: VariantTablePr
           </TableRow>
         ) : (
           variants.map((variant, index) => {
-            const color = colors?.find((c) => c._id === variant.colorId);
-
             return (
               <TableRow
-                key={`${variant.colorId}-${variant.size}-${index}`}
+                key={`${variant.color}-${variant.size}-${index}`}
                 className="border-0 hover:bg-transparent"
               >
                 {/* Color */}
@@ -82,25 +78,17 @@ export default function VariantTable({ variants: propsVariants }: VariantTablePr
                         justify-center
                         gap-1.5
                         rounded-md
-                        border
-                        border-border
-                        bg-muted
                         px-2
                       "
                     >
-                      {color?.iconUrl ? (
-                        <img
-                          src={color.iconUrl}
-                          alt={color.title}
-                          className="size-5 rounded-full object-cover "
+                      {variant.color ? (
+                        <span
+                          className="size-5 rounded-full border border-border"
+                          style={{ backgroundColor: variant.color }}
                         />
                       ) : (
                         <span className="size-5 rounded-full bg-muted-foreground" />
                       )}
-
-                      <span className="text-xs font-medium">
-                        {color?.title ?? "Unknown"}
-                      </span>
                     </div>
                   </div>
                 </TableCell>
@@ -119,7 +107,6 @@ export default function VariantTable({ variants: propsVariants }: VariantTablePr
                 <TableCell>
                   <div className="flex justify-center">
                     <DashboardActions
-                      title={`${color?.title ?? "variant"} variant`}
                       size="sm"
                       onEdit={() => openEditVariant(variant, index)}
                       onDelete={() => openDeleteVariant(variant, index)}

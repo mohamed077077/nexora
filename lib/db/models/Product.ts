@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
 
 const VariantSchema = new mongoose.Schema({
-  colorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Color",
+  color: {
+    type: String,
     required: true,
+    trim: true,
+  },
+
+  colorName: {
+    type: String,
+    required: true,
+    trim: true,
   },
 
   size: {

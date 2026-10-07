@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { addProduct } from "../../../http/AddProduct";
 import { useProductDialogStore } from "../../../store/useProductDialogStore";
-import { useVariantStore } from "../../../store/useProductStore";
+import { useVariantStore } from "../../../store/useDraftVariantStore";
 
 import ProductForm from "./ProductForm";
 

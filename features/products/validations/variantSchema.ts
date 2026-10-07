@@ -1,10 +1,15 @@
 import { z } from "zod";
 
 export const variantSchema = z.object({
-  colorId: z
+  color: z
     .string("Color is required")
     .trim()
     .min(1, "Color is required"),
+
+  colorName: z
+    .string("Color name is required")
+    .trim()
+    .min(1, "Color name is required"),
 
   size: z
     .string("Size is required")

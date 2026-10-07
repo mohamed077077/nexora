@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { useVariantStore } from "@/features/products/store/useProductStore";
+import { useVariantStore } from "@/features/products/store/useDraftVariantStore";
 import { useVariantDialogStore } from "@/features/products/store/useVariantDialogStore";
 import AppDeleteContent from "@/shared/components/AppDeleteContent";
 import type { Variant } from "@/features/products/types";

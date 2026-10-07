@@ -4,7 +4,6 @@ import { AppError } from "@/lib/AppError";
 import connectDB from "@/lib/db/connect";
 
 import Category from "@/lib/db/models/Category";
-import Color from "@/lib/db/models/Color";
 import Product from "@/lib/db/models/Product";
 
 export async function updateProduct(
@@ -19,7 +18,8 @@ export async function updateProduct(
     categoryId: string;
     price: number;
     variants: {
-      colorId: string;
+      color: string;
+      colorName: string;
       size: string | number;
       image: string;
       stock: number;
@@ -37,25 +37,36 @@ export async function updateProduct(
   }
 
   if (!variants.length) {
-    throw new AppError("Product must have at least one variant", 400);
+    throw new AppError(
+      "Product must have at least one variant",
+      400
+    );
   }
 
-  const invalidColorId = variants.find(
-    (variant) => !mongoose.isValidObjectId(variant.colorId)
+  const hasInvalidVariant = variants.some(
+    (variant) =>
+      !variant.color ||
+      !variant.colorName ||
+      !variant.image ||
+      !variant.size ||
+      variant.stock < 0
   );
 
-  if (invalidColorId) {
-    throw new AppError("Invalid color ID", 400);
+  if (hasInvalidVariant) {
+    throw new AppError("Invalid variant data", 400);
   }
 
-  const colorIds = [...new Set(variants.map((variant) => variant.colorId))];
+  const hasInvalidColor = variants.some(
+    (variant) => !/^#[0-9A-Fa-f]{6}$/.test(variant.color)
+  );
 
-  const [product, category, colors] = await Promise.all([
+  if (hasInvalidColor) {
+    throw new AppError("Invalid color", 400);
+  }
+
+  const [product, category] = await Promise.all([
     Product.findById(id),
     Category.findById(categoryId),
-    Color.find({
-      _id: { $in: colorIds },
-    }),
   ]);
 
   if (!product) {
@@ -64,10 +75,6 @@ export async function updateProduct(
 
   if (!category) {
     throw new AppError("Category not found", 404);
-  }
-
-  if (colors.length !== colorIds.length) {
-    throw new AppError("One or more colors not found", 404);
   }
 
   product.title = title;
