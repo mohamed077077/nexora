@@ -6,6 +6,7 @@ import { useVariantDialogStore } from "@/features/products/store/useVariantDialo
 import type { Variant } from "@/features/products/types";
 import type { VariantFormValues } from "@/features/products/validations/variantSchema";
 import VariantForm from "./VariantForm";
+import { useProducts } from "@/features/products/hooks/useProducts";
 
 type EditVariantFormProps = {
   variant: Variant;
@@ -19,8 +20,24 @@ export default function EditVariantForm({
   const close = useVariantDialogStore((state) => state.close);
   const updateVariant = useVariantStore((state) => state.updateVariant);
   const draft = useVariantStore((state) => state.draft);
+  const { data: products } = useProducts();
 
   const handleSubmit = (data: VariantFormValues) => {
+    const normalizedName = data.colorName.trim().toLowerCase();
+    const normalizedColor = data.color.toUpperCase();
+
+    const hasColorConflict = products?.products?.some((product) =>
+      product.variants?.some(
+        (v) =>
+          v.colorName.trim().toLowerCase() === normalizedName &&
+          v.color.toUpperCase() !== normalizedColor
+      )
+    );
+
+    if (hasColorConflict) {
+      toast.error("This color name is already used with a different HEX value");
+      return;
+    }
     const hasDuplicate = draft?.some(
       (v, i) =>
         i !== index &&
