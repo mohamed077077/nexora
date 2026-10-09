@@ -62,6 +62,7 @@ export default function EditProductForm({ product }: EditProductFormProps) {
         title: product.title,
         categoryId: product.categoryId,
         price: product.price,
+        gender: product.gender,
       }}
       onCancel={() => {
         resetDraft();

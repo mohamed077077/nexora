@@ -11,7 +11,6 @@ import {
 import DashboardActions from "@/shared/components/dashboard/DashboardActions";
 import { useVariantStore } from "@/features/products/store/useDraftVariantStore";
 import { useVariantDialogStore } from "@/features/products/store/useVariantDialogStore";
-import { useColors } from "@/features/colors/hooks/useColors";
 import type { Variant } from "@/features/products/types";
 
 type VariantTableProps = {

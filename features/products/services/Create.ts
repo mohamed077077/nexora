@@ -9,11 +9,13 @@ import Product from "@/lib/db/models/Product";
 export async function createProduct({
   title,
   categoryId,
+  gender,
   price,
   variants,
 }: {
   title: string;
   categoryId: string;
+  gender: string;
   price: number;
   variants: {
     color: string;
@@ -66,6 +68,7 @@ export async function createProduct({
   const product = await Product.create({
     title,
     categoryId,
+    gender,
     price,
     variants,
   });

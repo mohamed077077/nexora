@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const GENDER_OPTIONS = ["men", "women", "both"] as const;
+export const GENDER_OPTIONS = ["men", "women", "boys", "girls", "all"] as const;
 export type Gender = (typeof GENDER_OPTIONS)[number];
 
 export const productSchema = z.object({
@@ -18,7 +18,9 @@ export const productSchema = z.object({
     .number("Price is required")
     .min(1, "Price cannot be negative"),
 
-  gender: z.string("Gender is required").trim().min(1, "Gender is required"),
+  gender: z.enum(GENDER_OPTIONS, {
+    error: "Gender is required",
+  }),
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;

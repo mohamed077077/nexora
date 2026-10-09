@@ -12,11 +12,13 @@ export async function updateProduct(
     title,
     categoryId,
     price,
+    gender,
     variants,
   }: {
     title: string;
     categoryId: string;
     price: number;
+    gender: string;
     variants: {
       color: string;
       colorName: string;
@@ -79,6 +81,7 @@ export async function updateProduct(
 
   product.title = title;
   product.categoryId = categoryId;
+  product.gender = gender;
   product.price = price;
   product.variants = variants;
 

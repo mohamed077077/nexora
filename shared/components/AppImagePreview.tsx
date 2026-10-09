@@ -57,21 +57,21 @@ export default function AppImagePreview({
       </div>
 
       {/* Preview box */}
-      <div className="relative flex h-32 w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-border bg-muted/50">
+      <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl border border-dashed border-border bg-muted/50">
         {imageUrl && !error && !imageError ? (
           <img
             src={imageUrl}
             alt={alt}
-            className={`h-full w-full p-2 ${fit === "cover" ? "object-cover" : "object-contain"}`}
+            className="h-full w-full object-contain p-2"
             onError={onImageError}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center text-muted-foreground">
-            <ImageIcon className="mb-2 size-8 opacity-50" />
-            <span className="text-xs">No image provided</span>
-          </div>
-        )}
-      </div>
+          <div className="flex h-full flex-col items-center justify-center text-muted-foreground">
+      <ImageIcon className="mb-2 size-8 opacity-50" />
+      <span className="text-xs">No image provided</span>
+    </div>
+  )}
+</div>
     </div>
   );
 }
