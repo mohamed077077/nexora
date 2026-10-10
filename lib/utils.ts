@@ -1,4 +1,3 @@
-export { cn } from "cn"
 import type { Product } from "@/features/products/types";
 import type { Category } from "@/features/categories/types";
 

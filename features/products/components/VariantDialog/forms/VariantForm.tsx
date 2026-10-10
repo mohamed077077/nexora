@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useColorStore } from "../../../store/useColorStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import AppImagePreview from "@/shared/components/AppImagePreview";
+import { ColorSelect } from "../ColorSelect";
 
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -30,10 +32,17 @@ export default function VariantForm({
 }: VariantFormProps) {
   const [imageError, setImageError] = useState(false);
 
+const color = useColorStore((state) => state.color);
+const colorName = useColorStore((state) => state.colorName);
+const setColorDetails = useColorStore(
+  (state) => state.setColorDetails
+);
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<VariantFormValues>({
@@ -49,78 +58,31 @@ export default function VariantForm({
     },
   });
 
-  const color = watch("color");
+useEffect(() => {
+  register("color");
+  register("colorName");
+}, [register]);
+
+useEffect(() => {
+  if (color) {
+    setValue("color", color, {
+      shouldValidate: true,
+    });
+  }
+
+  setValue("colorName", colorName, {
+    shouldValidate: !!colorName,
+  });
+}, [color, colorName, setValue]);
+
   const imageUrl = watch("image");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-4 px-3.5 py-4">
-        {/* Color + Color Name */}
-        <div className="grid grid-cols-2 gap-3">
-          {/* Color */}
-          <div className="space-y-1.5">
-            <Label
-              htmlFor="variant-color"
-              className="text-sm font-medium"
-            >
-              Color
-            </Label>
-
-            <div className="flex h-9 items-center gap-3 rounded-md border border-input px-2.5">
-              <div className="relative size-6 shrink-0">
-                <span
-                  className="block size-6 rounded-full border border-border"
-                  style={{
-                    backgroundColor: color || "#000000",
-                  }}
-                />
-
-                <Input
-                  id="variant-color"
-                  type="color"
-                  {...register("color")}
-                  aria-invalid={!!errors.color}
-                  className="absolute inset-0 size-6 cursor-pointer rounded-full border-0 p-0 opacity-0"
-                />
-              </div>
-
-              <span className="truncate text-xs font-medium uppercase text-muted-foreground">
-                {color || "#000000"}
-              </span>
-            </div>
-
-            {errors.color && (
-              <p className="text-xs text-destructive">
-                {errors.color.message}
-              </p>
-            )}
-          </div>
-
-          {/* Color Name */}
-          <div className="space-y-1.5">
-            <Label
-              htmlFor="variant-color-name"
-              className="text-sm font-medium"
-            >
-              Color Name
-            </Label>
-
-            <Input
-              id="variant-color-name"
-              type="text"
-              placeholder="Red"
-              {...register("colorName")}
-              aria-invalid={!!errors.colorName}
-              className="h-9 rounded-md text-sm"
-            />
-
-            {errors.colorName && (
-              <p className="text-xs text-destructive">
-                {errors.colorName.message}
-              </p>
-            )}
-          </div>
-        </div>
+        <ColorSelect 
+          errorMessage={errors.color?.message || errors.colorName?.message}
+        />
 
         {/* Size + Stock */}
         <div className="grid grid-cols-2 gap-3">

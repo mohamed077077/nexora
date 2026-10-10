@@ -6,8 +6,13 @@ import { useVariantDialogStore } from "@/features/products/store/useVariantDialo
 import type { VariantFormValues } from "@/features/products/validations/variantSchema";
 import VariantForm from "./VariantForm";
 import { useProducts } from "@/features/products/hooks/useProducts";
+import { useEffect } from "react";
+import { useColorStore } from "@/features/products/store/useColorStore";
 
 export default function AddVariantForm() {
+  const resetColorState = useColorStore(
+  (state) => state.resetColorState
+);
   const { data: products } = useProducts();
   const close = useVariantDialogStore((state) => state.close);
   const addVariant = useVariantStore((state) => state.addVariant);
@@ -50,14 +55,22 @@ if (hasColorConflict) {
 
     addVariant(variant);
     toast.success("Variant added!");
+    resetColorState();
+
     close();
   };
+
+  useEffect(() => {
+  resetColorState();
+}, [resetColorState]);
 
   return (
     <VariantForm
       submitLabel="Add Variant"
       onSubmit={handleSubmit}
-      onCancel={close}
-    />
+      onCancel={() => {
+        resetColorState();
+        close();
+      }}    />
   );
 }

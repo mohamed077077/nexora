@@ -7,6 +7,8 @@ import type { Variant } from "@/features/products/types";
 import type { VariantFormValues } from "@/features/products/validations/variantSchema";
 import VariantForm from "./VariantForm";
 import { useProducts } from "@/features/products/hooks/useProducts";
+import { useEffect } from "react";
+import { useColorStore } from "@/features/products/store/useColorStore";
 
 type EditVariantFormProps = {
   variant: Variant;
@@ -20,6 +22,23 @@ export default function EditVariantForm({
   const close = useVariantDialogStore((state) => state.close);
   const updateVariant = useVariantStore((state) => state.updateVariant);
   const draft = useVariantStore((state) => state.draft);
+  const resetColorState = useColorStore(
+  (state) => state.resetColorState
+);
+const setColorDetails = useColorStore(
+  (state) => state.setColorDetails
+);
+
+useEffect(() => {
+  setColorDetails(
+    variant.color || "#000000",
+    variant.colorName || ""
+  );
+}, [
+  variant.color,
+  variant.colorName,
+  setColorDetails,
+]);
   const { data: products } = useProducts();
 
   const handleSubmit = (data: VariantFormValues) => {
@@ -60,6 +79,7 @@ export default function EditVariantForm({
 
     updateVariant(index, updatedVariant);
     toast.success("Variant updated!");
+    resetColorState();
     close();
   };
 

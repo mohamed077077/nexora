@@ -7,9 +7,9 @@ export const variantSchema = z.object({
     .min(1, "Color is required"),
 
   colorName: z
-    .string("Color name is required")
+    .string("Color  is required")
     .trim()
-    .min(1, "Color name is required"),
+    .min(1, "Color  is required"),
 
   size: z
     .string("Size is required")
