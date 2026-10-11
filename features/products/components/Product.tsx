@@ -7,7 +7,7 @@ import AppLoading from "@/shared/components/AppLoading";
 import AppError from "@/shared/components/AppError";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import { useCategories} from "@/features/categories/hooks/useCategories";
-import { getProductColors, sortCategoriesByProductCount } from "@/lib/utils";
+import { getProductColors, getProductGenders, sortCategoriesByProductCount } from "@/lib/utils";
 
 
 export default function Product() {
@@ -40,11 +40,12 @@ export default function Product() {
 
   const products = productsData?.products ?? [];
   const colors = getProductColors(products);
+  const genders = getProductGenders(products);
   const categories = sortCategoriesByProductCount(categoriesData ?? []);
 
   return (
     <section className="flex h-full w-full flex-col items-center justify-center gap-6">
-      <ProductHeader categories={categories} colors={colors} />
+      <ProductHeader categories={categories} colors={colors} genders={genders} />
       <ProductContent products={products} />
       <ProductDialog />
     </section>

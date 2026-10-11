@@ -1,6 +1,6 @@
 "use client";
 
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import {
   Select,
   SelectContent,
@@ -23,6 +23,7 @@ export interface AppSelectProps
   placeholder: string;
   error?: string;
   allOptionLabel?: string;
+  allOptionIcon?: ReactNode;
   id?: string;
 }
 
@@ -32,6 +33,7 @@ export default function AppSelect({
   placeholder,
   error,
   allOptionLabel,
+  allOptionIcon,
   id,
   value,
   onValueChange,
@@ -64,7 +66,7 @@ export default function AppSelect({
           <SelectValue placeholder={placeholder}>
             {value === "all" && allOptionLabel ? (
               <span className="flex items-center gap-2">
-                <span className="size-3.5 shrink-0 rounded-full border border-border bg-muted" />
+                {allOptionIcon ?? <span className="size-3.5 shrink-0 rounded-full border border-border bg-muted" />}
                 <span>{allOptionLabel}</span>
               </span>
             ) : selectedItem ? (
@@ -91,7 +93,7 @@ export default function AppSelect({
           {allOptionLabel && (
             <SelectItem value="all">
               <span className="flex items-center gap-2">
-                <span className="size-3.5 shrink-0 rounded-full border border-border bg-muted" />
+                {allOptionIcon ?? <span className="size-3.5 shrink-0 rounded-full border border-border bg-muted" />}
                 <span>{allOptionLabel}</span>
               </span>
             </SelectItem>

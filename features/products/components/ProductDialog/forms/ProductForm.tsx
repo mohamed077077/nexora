@@ -41,41 +41,41 @@ export default function ProductForm({
 
   const openAddVariant = useVariantDialogStore((state) => state.openAddVariant);
 
- const emojiIcon = (emoji: string) =>
-  `data:image/svg+xml,${encodeURIComponent(`
+  const emojiIcon = (emoji: string) =>
+    `data:image/svg+xml,${encodeURIComponent(`
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
       <text x="50%" y="50%" font-size="24"
         text-anchor="middle" dominant-baseline="central">${emoji}</text>
     </svg>
   `)}`;
 
-const genderOptions = [
-  {
-    _id: "all",
-    title: "All",
-    iconUrl: emojiIcon("👥"),
-  },
-  {
-    _id: "men",
-    title: "Men",
-    iconUrl: emojiIcon("👨"),
-  },
-  {
-    _id: "women",
-    title: "Women",
-    iconUrl: emojiIcon("👩"),
-  },
-  {
-    _id: "boys",
-    title: "Boys",
-    iconUrl: emojiIcon("👦"),
-  },
-  {
-    _id: "girls",
-    title: "Girls",
-    iconUrl: emojiIcon("👧"),
-  },
-];
+  const genderOptions = [
+    {
+      _id: "all",
+      title: "All",
+      iconUrl: emojiIcon("👥"),
+    },
+    {
+      _id: "men",
+      title: "Men",
+      iconUrl: emojiIcon("👨"),
+    },
+    {
+      _id: "women",
+      title: "Women",
+      iconUrl: emojiIcon("👩"),
+    },
+    {
+      _id: "boys",
+      title: "Boys",
+      iconUrl: emojiIcon("👦"),
+    },
+    {
+      _id: "girls",
+      title: "Girls",
+      iconUrl: emojiIcon("👧"),
+    },
+  ];
 
   const {
     register,

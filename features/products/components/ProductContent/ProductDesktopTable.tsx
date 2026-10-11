@@ -12,7 +12,7 @@ import DashboardImage from "@/shared/components/dashboard/DashboardImage";
 import ProductActions from "../ProductDialog/ProductActions";
 import type { Product } from "@/features/products/types";
 import { useCategories} from "@/features/categories/hooks/useCategories";
-
+import { useProductFilterStore } from "@/features/products/store/useProductFilterStore";
 type ProductDesktopTableProps = {
   products: Product[];
 };
@@ -22,6 +22,7 @@ export default function ProductDesktopTable({
 }: ProductDesktopTableProps) {
   const { data: categoriesData } = useCategories(true);
   const categories = categoriesData ?? [];
+  const color = useProductFilterStore((state) => state.color);
 
   return (
     <Table>
@@ -41,7 +42,18 @@ export default function ProductDesktopTable({
           const category = categories.find(
             (c) => c._id === product.categoryId
           );
-          const firstVariant = product.variants[0];
+
+          const selectedVariant = color !== "all" && color ?
+            product.variants.find(
+                (v) => v.color?.toLowerCase() === color.toLowerCase()
+              )
+            : null;
+
+          const shownImage =
+            selectedVariant?.image?.trim() ||
+            product.variants[0]?.image?.trim() ||
+            null;
+
           const totalStock = product.variants.reduce(
             (sum, v) => sum + v.stock,
             0
@@ -52,12 +64,18 @@ export default function ProductDesktopTable({
               key={product._id}
               className="border-0 border-b border-border last:border-b-0 hover:bg-transparent"
             >
-              <TableCell className="px-5 py-4">
+            <TableCell className="px-5 py-4">
+              {shownImage?.trim() ? (
                 <DashboardImage
-                  src={firstVariant.image}
+                  src={shownImage}
                   alt={product.title}
                 />
-              </TableCell>
+              ) : (
+                <div className="flex size-12 items-center justify-center rounded-md bg-muted text-xs text-muted-foreground">
+                  No Image
+                </div>
+              )}
+            </TableCell>
 
               <TableCell>
                 <span className="table-text">{product.title}</span>
@@ -92,6 +110,5 @@ function getStockClassName(stock: number) {
       : stock > 20
         ? "text-success"
         : "text-primary";
-
   return `text-base font-medium ${statusColor}`;
 }

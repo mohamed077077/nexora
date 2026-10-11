@@ -20,11 +20,11 @@ export default function ProductContent({ products }: ProductContentProps) {
   const search = useProductFilterStore((state) => state.search);
   const category = useProductFilterStore((state) => state.category);
   const color = useProductFilterStore((state) => state.color);
-  const price = useProductFilterStore((state) => state.price);
+  const gender = useProductFilterStore((state) => state.gender);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, category, color, price]);
+  }, [search, category, color, gender]);
 
   if (products.length === 0) {
     return (
@@ -51,11 +51,9 @@ export default function ProductContent({ products }: ProductContentProps) {
       return false;
     }
     
-    // 4. Price
-    if (price !== "all") {
-      if (price === "0-50" && (product.price < 0 || product.price > 50)) return false;
-      if (price === "50-100" && (product.price <= 50 || product.price > 100)) return false;
-      if (price === "100-plus" && product.price <= 100) return false;
+    // 4. Gender
+    if (gender !== "all" && product.gender !== gender) {
+      return false;
     }
 
     return true;

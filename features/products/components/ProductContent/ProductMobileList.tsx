@@ -3,7 +3,7 @@ import DashboardImage from "@/shared/components/dashboard/DashboardImage";
 import type { Product } from "@/features/products/types";
 import ProductActions from "../ProductDialog/ProductActions";
 import { useCategories } from "@/features/categories/hooks/useCategories";
-
+import { useProductFilterStore } from "@/features/products/store/useProductFilterStore";
 type ProductMobileListProps = {
   products: Product[];
 };
@@ -13,6 +13,7 @@ export default function ProductMobileList({
 }: ProductMobileListProps) {
   const { data: categoriesData } = useCategories(true);
   const categories = categoriesData ?? [];
+  const color = useProductFilterStore((state) => state.color);
 
   return (
     <div>
@@ -20,7 +21,17 @@ export default function ProductMobileList({
         const category = categories.find(
           (c) => c._id === product.categoryId
         );
-        const firstVariant = product.variants[0];
+        const selectedVariant = color !== "all" && color ?
+          product.variants.find(
+            (v) => v.color?.toLowerCase() === color.toLowerCase()
+          )
+        : null;
+
+        const shownImage =
+          selectedVariant?.image?.trim() ||
+          product.variants[0]?.image?.trim() ||
+          null;
+
         const totalStock = product.variants.reduce(
           (sum, v) => sum + v.stock,
           0
@@ -31,8 +42,16 @@ export default function ProductMobileList({
             key={product._id}
             className="flex items-center gap-4 border-b border-border px-4 py-4 last:border-b-0"
           >
-            <DashboardImage src={firstVariant.image} alt={product.title} />
-
+              {shownImage?.trim() ? (
+                <DashboardImage
+                  src={shownImage}
+                  alt={product.title}
+                />
+              ) : (
+                <div className="flex size-12 items-center justify-center rounded-md bg-muted text-xs text-muted-foreground">
+                  No Image
+                </div>
+              )}
             <div className="min-w-0 flex-1">
               <h3 className="truncate text-[15px] font-medium leading-5 text-foreground">
                 {product.title}

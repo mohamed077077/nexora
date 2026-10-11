@@ -1,5 +1,6 @@
 "use client";
 
+import { LayoutGrid } from "lucide-react";
 import type { Category } from "@/features/categories/types";
 import AppSelect from "@/shared/components/AppSelect";
 import { useProductFilterStore } from "../../store/useProductFilterStore";
@@ -30,6 +31,7 @@ export default function CategoryFilter({
       }}
       placeholder="Category"
       allOptionLabel="All Categories"
+      allOptionIcon={<LayoutGrid className="size-3.5 shrink-0 text-primary" />}
     />
   );
 }
