@@ -12,7 +12,7 @@ import GenderFilter from "./GenderFilter";
 
 import { useProductFilterStore } from "../../store/useProductFilterStore";
 import { useProductDialogStore } from "../../store/useProductDialogStore";
-
+import { useProducts } from "../../hooks/useProducts";
 type ProductColor = {
   _id: string;
   title: string;
@@ -36,6 +36,13 @@ export default function ProductHeader({
 
   const search = useProductFilterStore((state) => state.search);
   const setSearch = useProductFilterStore((state) => state.setSearch);
+  const { data: productsData } = useProducts();
+  const products = productsData ?? [];
+  const color = useProductFilterStore((state) => state.color);
+  const category = useProductFilterStore((state) => state.category);
+  const gender = useProductFilterStore((state) => state.gender);
+
+
 
   const hasCategories = categories.length > 0;
   const hasColors = colors.length > 0;

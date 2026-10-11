@@ -7,8 +7,8 @@ import AppLoading from "@/shared/components/AppLoading";
 import AppError from "@/shared/components/AppError";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import { useCategories} from "@/features/categories/hooks/useCategories";
-import { getProductColors, getProductGenders, sortCategoriesByProductCount } from "@/lib/utils";
-
+import { getColors, getGenders, getCategories, getMatchingProducts } from "@/lib/utils";
+import { useProductFilterStore } from "@/features/products/store/useProductFilterStore";
 
 export default function Product() {
   const {
@@ -26,6 +26,18 @@ export default function Product() {
     error: categoriesErr,
   } = useCategories(true);
 
+
+  const color = useProductFilterStore((state) => state.color);
+const category = useProductFilterStore((state) => state.category);
+const gender = useProductFilterStore((state) => state.gender);
+
+  const products = productsData?.products ?? [];
+  const colors = getColors(products, { color, gender, category });
+  const genders = getGenders(products, { color, gender, category });
+  const categories = getCategories(products, categoriesData ?? [], { color, gender, category });
+  const matchingProducts = getMatchingProducts(products, { color, gender, category });
+
+
   if (productsLoading || categoriesLoading) {
     return <AppLoading />;
   }
@@ -38,15 +50,12 @@ export default function Product() {
     return <AppError message={message} />;
   }
 
-  const products = productsData?.products ?? [];
-  const colors = getProductColors(products);
-  const genders = getProductGenders(products);
-  const categories = sortCategoriesByProductCount(categoriesData ?? []);
+
 
   return (
     <section className="flex h-full w-full flex-col items-center justify-center gap-6">
       <ProductHeader categories={categories} colors={colors} genders={genders} />
-      <ProductContent products={products} />
+      <ProductContent products={matchingProducts} />
       <ProductDialog />
     </section>
   );

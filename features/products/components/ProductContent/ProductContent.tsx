@@ -36,26 +36,9 @@ export default function ProductContent({ products }: ProductContentProps) {
   }
 
   const filteredProducts = products.filter((product) => {
-    // 1. Search
     if (search && !product.title.toLowerCase().includes(search.toLowerCase())) {
       return false;
     }
-    
-    // 2. Category
-    if (category !== "all" && product.categoryId !== category) {
-      return false;
-    }
-    
-    // 3. Color
-    if (color !== "all" && !product.variants.some((v) => v.color === color)) {
-      return false;
-    }
-    
-    // 4. Gender
-    if (gender !== "all" && product.gender !== gender) {
-      return false;
-    }
-
     return true;
   });
 
