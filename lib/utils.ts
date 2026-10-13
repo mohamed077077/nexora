@@ -64,10 +64,6 @@ const GENDER_LABELS: Record<
   string,
   { title: string; emoji: string }
 > = {
-  all: {
-    title: "All",
-    emoji: "👥",
-  },
   men: {
     title: "Men",
     emoji: "👨",

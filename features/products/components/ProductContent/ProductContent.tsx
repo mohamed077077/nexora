@@ -9,12 +9,14 @@ import { useProductFilterStore } from "../../store/useProductFilterStore";
 
 import ProductDesktopTable from "./ProductDesktopTable";
 import ProductMobileList from "./ProductMobileList";
+import ProductList from "./ProductList";
 
 type ProductContentProps = {
   products: Product[];
+  isAdmin?: boolean;
 };
 
-export default function ProductContent({ products }: ProductContentProps) {
+export default function ProductContent({ products, isAdmin }: ProductContentProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const search = useProductFilterStore((state) => state.search);
@@ -61,21 +63,28 @@ export default function ProductContent({ products }: ProductContentProps) {
 
   return (
     <>
-      <div className="hidden w-full overflow-auto rounded-2xl border border-border md:block">
-        <ProductDesktopTable products={currentProducts} />
-      </div>
+      {isAdmin ? (
+        <>
+          <div className="hidden w-full overflow-auto rounded-2xl border border-border md:block">
+            <ProductDesktopTable products={currentProducts} />
+          </div>
 
-      <div className="w-full overflow-hidden md:hidden">
-        <ProductMobileList products={currentProducts} />
-      </div>
-
+          <div className="w-full overflow-hidden md:hidden">
+            <ProductMobileList products={currentProducts} />
+          </div>
+        </>
+      ) : (
+        <ProductList products={currentProducts} />
+      )}
+        {filteredProducts.length > productsPerPage &&(
       <div className="flex h-16 w-full items-center justify-between border-t border-border px-5">
-        <AppPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+          <AppPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
       </div>
+        )}
     </>
   );
 }

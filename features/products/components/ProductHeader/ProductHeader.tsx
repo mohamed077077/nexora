@@ -23,12 +23,14 @@ type ProductHeaderProps = {
   categories: Category[];
   colors: ProductColor[];
   genders: AppSelectItem[];
+  isAdmin?: boolean;
 };
 
 export default function ProductHeader({
   categories,
   colors,
   genders,
+  isAdmin
 }: ProductHeaderProps) {
   const openAddProduct = useProductDialogStore(
     (state) => state.openAddProduct
@@ -50,7 +52,7 @@ export default function ProductHeader({
   const showGenderFilter = hasCategories && hasColors && hasGenders;
 
   return (
-    <div className="grid w-full gap-3 lg:flex lg:items-center">
+    <div className={`grid w-full gap-3 lg:flex lg:items-center ${isAdmin ? "" : "lg:border"} p-4  border-border rounded-lg`}>
       <AppSearchBar
         value={search}
         onChange={setSearch}
@@ -71,11 +73,13 @@ export default function ProductHeader({
         )}
       </div>
 
-      <AppAddButton
-        label="Add Product"
-        ariaLabel="Add product"
-        onClick={openAddProduct}
-      />
+      {isAdmin && (
+        <AppAddButton
+          label="Add Product"
+          ariaLabel="Add product"
+          onClick={openAddProduct}
+        />
+      )}
     </div>
   );
 }

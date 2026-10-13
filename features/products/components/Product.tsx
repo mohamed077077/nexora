@@ -10,7 +10,7 @@ import { useCategories} from "@/features/categories/hooks/useCategories";
 import { getColors, getGenders, getCategories, getMatchingProducts } from "@/lib/utils";
 import { useProductFilterStore } from "@/features/products/store/useProductFilterStore";
 
-export default function Product() {
+export default function Product({ isAdmin }: { isAdmin?: boolean }) {
   const {
     data: productsData,
     isLoading: productsLoading,
@@ -28,10 +28,12 @@ export default function Product() {
 
 
   const color = useProductFilterStore((state) => state.color);
-const category = useProductFilterStore((state) => state.category);
-const gender = useProductFilterStore((state) => state.gender);
+  const category = useProductFilterStore((state) => state.category);
+  const gender = useProductFilterStore((state) => state.gender);
 
-  const products = productsData?.products ?? [];
+  const allproducts = productsData?.products ?? [];
+  const filteredProducts = allproducts.filter((product) => product.variants.some((variant) => variant.stock>0));4
+  const products = isAdmin? allproducts : filteredProducts;
   const colors = getColors(products, { color, gender, category });
   const genders = getGenders(products, { color, gender, category });
   const categories = getCategories(products, categoriesData ?? [], { color, gender, category });
@@ -39,7 +41,7 @@ const gender = useProductFilterStore((state) => state.gender);
 
 
   if (productsLoading || categoriesLoading) {
-    return <AppLoading />;
+    return <AppLoading isAdmin={isAdmin} />;
   }
 
   if (productsError || categoriesError) {
@@ -54,9 +56,9 @@ const gender = useProductFilterStore((state) => state.gender);
 
   return (
     <section className="flex h-full w-full flex-col items-center justify-center gap-6">
-      <ProductHeader categories={categories} colors={colors} genders={genders} />
-      <ProductContent products={matchingProducts} />
-      <ProductDialog />
+      <ProductHeader categories={categories} colors={colors} genders={genders} isAdmin={isAdmin} />
+      <ProductContent products={matchingProducts}  isAdmin={isAdmin}/>
+      {isAdmin && <ProductDialog />}
     </section>
   );
 }

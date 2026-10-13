@@ -1,6 +1,12 @@
-export default function AppLoading() {
+export default function AppLoading({ isAdmin }: { isAdmin?: boolean }) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
+    <div
+      className={`fixed flex items-center justify-center ${
+        isAdmin
+          ? "inset-0"
+          : "inset-x-0 bottom-0 top-[68px] lg:top-[428px]"
+      }`}
+    >
       <div className="relative flex items-center justify-center">
         {/* Outer spinning ring */}
         <span className="absolute h-16 w-16 animate-spin rounded-full border-4 border-transparent border-t-primary" />

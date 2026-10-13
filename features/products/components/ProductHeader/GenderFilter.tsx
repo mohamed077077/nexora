@@ -29,6 +29,11 @@ export default function GenderFilter({
         setGender(value as string || "all");
       }}
       placeholder="Gender"
-    />
-  );
+      allOptionLabel="All Genders"
+      allOptionIcon={
+        <span className="flex size-3.5 shrink-0 items-center justify-center text-sm leading-none">
+          👥
+        </span>
+      } />
+  )
 }
