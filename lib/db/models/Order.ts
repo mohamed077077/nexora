@@ -8,12 +8,16 @@ const OrderItemSchema = new mongoose.Schema({
   },
 
   variant: {
-    colorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Color",
+    color: {
+      type: String,
       required: true,
+      trim: true,
     },
 
+    colorName: {
+      type: String,
+      trim: true,
+    },
     size: {
       type: mongoose.Schema.Types.Union,
       of: [
@@ -28,7 +32,6 @@ const OrderItemSchema = new mongoose.Schema({
       required: true,
     },
   },
-
 
   quantity: {
     type: Number,
@@ -78,11 +81,16 @@ const OrderSchema = new mongoose.Schema(
         "success",
         "cancelled",
       ],
+      default: "pending",
     },
 
     items: {
       type: [OrderItemSchema],
-      },
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
   }
 );
 

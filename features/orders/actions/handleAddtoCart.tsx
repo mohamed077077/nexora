@@ -17,7 +17,6 @@ export function handleAddToCart(
     });
   } catch (error) {
     console.error("Failed to add item to cart:", error);
-
     toast.error("Failed to add product to cart.", {
       description: "Please try again.",
       duration: 4000,
