@@ -13,7 +13,7 @@ import {
   Loader2,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -24,19 +24,99 @@ import {
   CardTitle,
   CardDescription,
 } from "@/shared/ui/card";
+import { useForm } from "react-hook-form";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { orderSchema, type OrderFormValues } from "../../validations/orderSchema";
+import { useCartStore, selectTotalPrice } from "../../CartStore";
+import { useMutation } from "@tanstack/react-query";
+import { addOrder } from "../../http/AddOrder";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+
 
 const field = "h-11 rounded-md pl-10";
 
 const iconInField =
   "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground";
 
-// Optional map preview image.
 
 export function CartForm() {
+
+  const router = useRouter();
   const [locationUrl, setLocationUrl] = useState("");
   const [locationError, setLocationError] = useState("");
   const [isLocating, setIsLocating] = useState(false);
   const MAP_IMAGE_SRC: string | undefined = locationUrl?"https://res.cloudinary.com/dsnbjtkts/image/upload/v1792223035/289c7dc3-9d5c-400d-b595-086a0bdbb6a0_p2jlww.png":"";
+
+  // ── Cart store ──
+  const items = useCartStore((s) => s.items);
+  const clearCart = useCartStore((s) => s.clearCart);
+  const totalPrice = useCartStore(selectTotalPrice);
+
+  // ── React Hook Form ──
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<OrderFormValues>({
+    resolver: zodResolver(orderSchema),
+    defaultValues: {
+      customerName: "",
+      customerPhone: "",
+      customerAddress: "",
+      customerLocationUrl: "",
+      totalPrice: 0,
+      status: "pending",
+      items: [],
+    },
+  });
+
+  // Sync store data → form hidden fields whenever they change
+  useEffect(() => {
+    setValue("totalPrice", totalPrice);
+  }, [totalPrice, setValue]);
+
+  useEffect(() => {
+    const orderItems = items.map((item) => ({
+      productId: item.productId,
+      variant: item.variant,
+      quantity: item.quantity,
+    }));
+    setValue("items", orderItems);
+  }, [items, setValue]);
+
+  useEffect(() => {
+    setValue("status", "pending");
+  }, [setValue]);
+
+  useEffect(() => {
+    setValue("customerLocationUrl", locationUrl);
+  }, [locationUrl, setValue]);
+
+  // ── Mutation ──
+  const { mutate } = useMutation({
+    mutationKey: ["addOrder"],
+    mutationFn: addOrder,
+    onSuccess: () => {
+      toast.success("Order placed successfully"); 
+      clearCart();
+      router.push("/");
+    },
+    onError: (err) => {
+      const message =
+        err instanceof Error ? err.message : "Failed to place order";
+      toast.error(message);
+    },
+  });
+
+  const onSubmit = (data: OrderFormValues) => {
+    mutate(data);
+  };
+
+  // ── Geolocation handlers ──
   const handleSelectLocation = () => {
     if (!navigator.geolocation) {
       setLocationError(
@@ -117,14 +197,11 @@ export function CartForm() {
       </CardHeader>
 
       <CardContent>
-        <form id="checkout-form" className="space-y-5">
-          {/* Hidden input containing the selected Google Maps URL */}
-          <input
-            type="hidden"
-            name="googleMapsLocation"
-            value={locationUrl}
-          />
-
+        <form
+          id="checkout-form"
+          className="space-y-5"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="grid gap-4 sm:grid-cols-2">
             {/* Full Name */}
             <div className="space-y-2">
@@ -140,12 +217,18 @@ export function CartForm() {
 
                 <Input
                   id="customerName"
-                  name="customerName"
                   placeholder="Enter your full name"
                   autoComplete="name"
                   className={field}
+                  {...register("customerName")}
                 />
               </div>
+
+              {errors.customerName && (
+                <p role="alert" className="text-sm text-destructive">
+                  {errors.customerName.message}
+                </p>
+              )}
             </div>
 
             {/* Phone Number */}
@@ -162,13 +245,19 @@ export function CartForm() {
 
                 <Input
                   id="customerPhone"
-                  name="customerPhone"
                   type="tel"
                   placeholder="Enter your phone number"
                   autoComplete="tel"
                   className={field}
+                  {...register("customerPhone")}
                 />
               </div>
+
+              {errors.customerPhone && (
+                <p role="alert" className="text-sm text-destructive">
+                  {errors.customerPhone.message}
+                </p>
+              )}
             </div>
 
             {/* Address */}
@@ -185,12 +274,18 @@ export function CartForm() {
 
                 <Input
                   id="customerAddress"
-                  name="customerAddress"
                   placeholder="Enter your address"
                   autoComplete="street-address"
                   className={field}
+                  {...register("customerAddress")}
                 />
               </div>
+
+              {errors.customerAddress && (
+                <p role="alert" className="text-sm text-destructive">
+                  {errors.customerAddress.message}
+                </p>
+              )}
             </div>
 
             {/* Google Maps Location */}
@@ -307,6 +402,13 @@ export function CartForm() {
             </div>
           </div>
 
+          {/* Items validation error */}
+          {errors.items && (
+            <p role="alert" className="text-sm text-destructive">
+              {errors.items.message}
+            </p>
+          )}
+
           {/* Delivery estimate */}
           <p className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
             <Truck
@@ -320,4 +422,3 @@ export function CartForm() {
     </Card>
   );
 }
-

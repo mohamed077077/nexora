@@ -34,10 +34,7 @@ export const orderItemVariantSchema = z.object({
 });
 
 export const orderItemSchema = z.object({
-  productId: z
-    .string("Product ID is required")
-    .trim()
-    .min(1, "Product ID is required"),
+  productId: z.string().trim(),
 
   variant: orderItemVariantSchema,
 

@@ -12,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
+import { useIsMutating } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 const card = "rounded-2xl border border-primary/15 bg-card p-4 sm:p-6";
 
@@ -22,6 +24,7 @@ export default function CartSummary() {
 
   const items = useCartStore((state) => state.items);
 
+  const isPlacingOrder = useIsMutating({ mutationKey: ["addOrder"] }) > 0;
 
   return (
 <Card className="lg:sticky lg:top-6 shadow-none">
@@ -54,11 +57,19 @@ export default function CartSummary() {
 </dl>
 
     <Button
-      type="button"
-      disabled={items.length === 0}
+      type="submit"
+      form="checkout-form"
+      disabled={items.length === 0 || isPlacingOrder}
       className="h-11 w-full cursor-pointer rounded-lg text-sm font-semibold"
     >
-      Place Order
+      {isPlacingOrder ? (
+        <>
+          <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+          Placing Order...
+        </>
+      ) : (
+        "Place Order"
+      )}
     </Button>
   </CardContent>
 </Card>
