@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ImageIcon } from "lucide-react";
 
-import CartButton from "@/features/orders/components/Cart";
+import CartButton from "@/features/orders/components/cart/CartButton";
 import { handleAddToCart } from "@/features/orders/actions/handleAddtoCart";
 
 import { Card } from "@/shared/ui/card";

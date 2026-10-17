@@ -16,6 +16,7 @@ export type OrderItemVariant = {
   colorName?: string;
   size: string | number;
   image: string;
+  stock: number;
 };
 
 export type OrderItem = {

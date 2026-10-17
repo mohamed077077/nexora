@@ -6,18 +6,23 @@ type CartState = {
   items: CartItem[];
 
   addItem: (product: Product, variant: Variant) => void;
+  updateQuantity: (productId: string, variant: Variant, quantity: number) => void;
   removeItem: (productId: string, variant: Variant) => void;
   clearCart: () => void;
 };
 
-
-function cartItemKey(productId: string, variant: Variant): string {
+export function cartItemKey(productId: string, variant: Variant): string {
   return JSON.stringify([productId, variant.color, variant.size]);
 }
 
-
 export const selectTotalItems = (state: CartState): number =>
   state.items.reduce((total, item) => total + item.quantity, 0);
+
+export const selectTotalPrice = (state: CartState): number =>
+  state.items.reduce(
+    (total, item) => total + item.product.price * item.quantity,
+    0
+  );
 
 export const useCartStore = create<CartState>()((set) => ({
   items: [],
@@ -52,6 +57,21 @@ export const useCartStore = create<CartState>()((set) => ({
         ],
       };
     });
+  },
+
+  updateQuantity: (productId, variant, quantity) => {
+    const key = cartItemKey(productId, variant);
+
+    set((state) => ({
+      items: state.items.map((item) =>
+        cartItemKey(item.productId, item.variant) === key
+          ? {
+              ...item,
+              quantity: Math.min(Math.max(1, quantity), variant.stock),
+            }
+          : item,
+      ),
+    }));
   },
 
   removeItem: (productId, variant) => {

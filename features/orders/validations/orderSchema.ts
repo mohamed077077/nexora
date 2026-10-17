@@ -26,6 +26,11 @@ export const orderItemVariantSchema = z.object({
     .string("Image is required")
     .trim()
     .min(1, "Image is required"),
+
+  stock: z
+    .number("Stock is required")
+    .int("Stock must be an integer")
+    .min(1, "Stock must be at least 1"),
 });
 
 export const orderItemSchema = z.object({

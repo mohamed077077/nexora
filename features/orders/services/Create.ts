@@ -7,6 +7,29 @@ import Order from "@/lib/db/models/Order";
 import Product from "@/lib/db/models/Product";
 import type { OrderStatus } from "../types";
 
+type OrderItemInput = {
+  productId: string;
+  variant: {
+    color: string;
+    colorName?: string;
+    size: string | number;
+    image: string;
+    stock: number;
+  };
+  quantity: number;
+};
+
+// Find a specific variant by product ID, color, and size.
+const variantFilter = (item: OrderItemInput) => ({
+  _id: item.productId,
+  variants: {
+    $elemMatch: {
+      color: item.variant.color,
+      size: item.variant.size,
+    },
+  },
+});
+
 export async function createOrder({
   customerName,
   customerPhone,
@@ -22,19 +45,11 @@ export async function createOrder({
   customerLocationUrl?: string;
   totalPrice: number;
   status?: OrderStatus;
-  items: {
-    productId: string;
-    variant: {
-      color: string;
-      colorName?: string;
-      size: string | number;
-      image: string;
-    };
-    quantity: number;
-  }[];
+  items: OrderItemInput[];
 }) {
   await connectDB();
 
+  // Validate order items.
   if (!items || !items.length) {
     throw new AppError("Order must have at least one item", 400);
   }
@@ -42,7 +57,7 @@ export async function createOrder({
   const hasInvalidItem = items.some(
     (item) =>
       !item.productId ||
-      !item.quantity ||
+      !Number.isInteger(item.quantity) ||
       item.quantity < 1 ||
       !item.variant ||
       !item.variant.color ||
@@ -54,6 +69,7 @@ export async function createOrder({
     throw new AppError("Invalid item data in order", 400);
   }
 
+  // Validate product IDs.
   const hasInvalidProductId = items.some(
     (item) => !mongoose.isValidObjectId(item.productId)
   );
@@ -62,7 +78,11 @@ export async function createOrder({
     throw new AppError("Invalid product ID in order items", 400);
   }
 
-  const productIds = Array.from(new Set(items.map((item) => item.productId)));
+  // Check that all referenced products exist.
+  const productIds = Array.from(
+    new Set(items.map((item) => item.productId))
+  );
+
   const existingProductsCount = await Product.countDocuments({
     _id: { $in: productIds },
   });
@@ -71,15 +91,63 @@ export async function createOrder({
     throw new AppError("One or more products not found", 404);
   }
 
-  const order = await Order.create({
-    customerName,
-    customerPhone,
-    customerAddress,
-    customerLocationUrl,
-    totalPrice,
-    status,
-    items,
-  });
+  // Keep track of items whose stock was successfully reduced.
+  const reserved: OrderItemInput[] = [];
 
-  return order;
+  try {
+    // Reserve stock for each requested item.
+    for (const item of items) {
+      const result = await Product.updateOne(
+        {
+          _id: item.productId,
+          variants: {
+            $elemMatch: {
+              color: item.variant.color,
+              size: item.variant.size,
+              stock: { $gte: item.quantity },
+            },
+          },
+        },
+        {
+          $inc: {
+            "variants.$.stock": -item.quantity,
+          },
+        }
+      );
+
+      // No matching variant with sufficient stock was updated.
+      if (result.modifiedCount === 0) {
+        throw new AppError(
+          `Not enough stock for ${item.variant.color} / ${item.variant.size}`,
+          409
+        );
+      }
+
+      // Record the successful stock reduction.
+      reserved.push(item);
+    }
+
+    // Save the order only after reserving all requested stock.
+    const order = await Order.create({
+      customerName,
+      customerPhone,
+      customerAddress,
+      customerLocationUrl,
+      totalPrice,
+      status,
+      items,
+    });
+
+    return order;
+  } catch (error) {
+    await Promise.all(
+      reserved.map((item) =>
+        Product.updateOne(variantFilter(item), {
+          $inc: { "variants.$.stock": item.quantity },
+        })
+      )
+    );
+
+    throw error;
+  }
 }
