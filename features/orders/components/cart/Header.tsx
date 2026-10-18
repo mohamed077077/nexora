@@ -9,7 +9,7 @@ export function Header() {
       <div className="flex flex-wrap items-center justify-between gap-2 pb-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-opacity hover:opacity-80"
+          className="inline-flex items-center gap-2 text-sm font-medium text-black transition-opacity hover:opacity-80"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
           Back to home

@@ -3,7 +3,7 @@
 import dbConnect from "../db/connect";
 import User from "../db/models/User";
 
-export async function createUser(prev:FormData,formData: FormData) {
+export async function createUser(prev: unknown, formData: FormData) {
   try {
     // 1. Connect to MongoDB Atlas
     await dbConnect();

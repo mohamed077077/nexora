@@ -1,3 +1,5 @@
+import Order from "@/features/orders/components/order/Order";
+
 export default function OrdersPage() {
-    return <h1>Orders</h1>
+  return <Order />;
 }

@@ -201,3 +201,6 @@ export function getColors(
   // 9. Sort from most common to least common
   return colors.sort((a, b) => b.count - a.count);
 }
+
+
+export const formatOrderId = (id: string) => `#ORD-${id.slice(-6).toUpperCase()}`;

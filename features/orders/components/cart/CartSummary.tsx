@@ -5,7 +5,7 @@ import {
   useCartStore,
   selectTotalItems,
   selectTotalPrice,
-} from "../../CartStore";
+} from "../../store/CartStore";
 import {
   Card,
   CardContent,
@@ -14,8 +14,6 @@ import {
 } from "@/shared/ui/card";
 import { useIsMutating } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-
-const card = "rounded-2xl border border-primary/15 bg-card p-4 sm:p-6";
 
 export default function CartSummary() {
   const itemCount = useCartStore(selectTotalItems);

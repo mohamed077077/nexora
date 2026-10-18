@@ -28,7 +28,7 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { orderSchema, type OrderFormValues } from "../../validations/orderSchema";
-import { useCartStore, selectTotalPrice } from "../../CartStore";
+import { useCartStore, selectTotalPrice } from "../../store/CartStore";
 import { useMutation } from "@tanstack/react-query";
 import { addOrder } from "../../http/AddOrder";
 import { useRouter } from "next/navigation";
@@ -412,7 +412,7 @@ export function CartForm() {
           {/* Delivery estimate */}
           <p className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
             <Truck
-              className="size-4 shrink-0 text-primary"
+              className="size-4 shrink-0 text-black"
               aria-hidden="true"
             />
             Estimated delivery: 3-5 business days
