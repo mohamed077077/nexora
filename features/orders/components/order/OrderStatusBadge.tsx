@@ -1,29 +1,29 @@
 import type { OrderStatus } from "../../types";
 
-const STATUS_CONFIG: Record<
+export const STATUS_CONFIG: Record<
   OrderStatus,
   { label: string; bg: string; text: string; border: string; dot: string }
 > = {
   pending: {
     label: "Pending",
-    bg: "bg-primary-500/10",
-    text: "text-primary-600 dark:text-primary-400",
-    border: "border-primary-500/20",
-    dot: "bg-primary-500",
+    bg: "bg-primary/10",
+    text: "text-primary/600 dark:text-primary/400",
+    border: "border-primary/20",
+    dot: "bg-primary",
   },
   confirmed: {
     label: "Confirmed",
-    bg: "bg-confirmed-500/10",
-    text: "text-confirmed-600 dark:text-confirmed-400",
-    border: "border-confirmed-500/20",
-    dot: "bg-confirmed-500",
+    bg: "bg-confirmed/10",
+    text: "text-confirmed/600 dark:text-confirmed/400",
+    border: "border-confirmed/20",
+    dot: "bg-confirmed",
   },
   success: {
     label: "Success",
-    bg: "bg-success-500/10",
-    text: "text-success-600 dark:text-success-400",
-    border: "border-success-500/20",
-    dot: "bg-success-500",
+    bg: "bg-success/10",
+    text: "text-success/600 dark:text-success/400",
+    border: "border-success/20",
+    dot: "bg-success",
   },
   cancelled: {
     label: "Cancelled",

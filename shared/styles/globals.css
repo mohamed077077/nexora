@@ -5,7 +5,7 @@
 @import "shadcn/tailwind.css";
 
 :root {
-   --background: #ffffff;
+  --background: #ffffff;
   --foreground: #171717;
 
   --popover: #ffffff;
@@ -32,7 +32,7 @@
   --ring: #fb900e;
 
   --destructive: #f41414;
-  --comfirmed: #0F63FF;
+  --confirmed: #0F63FF;
   --success: #117e0a;
 
   --radius: 0.625rem;
@@ -72,7 +72,7 @@
   --color-foreground: var(--foreground);
   --color-background: var(--background);
   --color-success: var(--success);
-  --color-comfirmed: var(--comfirmed);
+  --color-confirmed: var(--confirmed);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

@@ -29,11 +29,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { orderSchema, type OrderFormValues } from "../../validations/orderSchema";
 import { useCartStore, selectTotalPrice } from "../../store/CartStore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addOrder } from "../../http/AddOrder";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
 
 
 const field = "h-11 rounded-md pl-10";
@@ -43,6 +42,7 @@ const iconInField =
 
 
 export function CartForm() {
+  const queryClient = useQueryClient();
 
   const router = useRouter();
   const [locationUrl, setLocationUrl] = useState("");
@@ -74,6 +74,7 @@ export function CartForm() {
     },
   });
 
+
   // Sync store data → form hidden fields whenever they change
   useEffect(() => {
     setValue("totalPrice", totalPrice);
@@ -101,6 +102,7 @@ export function CartForm() {
     mutationKey: ["addOrder"],
     mutationFn: addOrder,
     onSuccess: () => {
+      queryClient.invalidateQueries(); 
       toast.success("Order placed successfully"); 
       clearCart();
       router.push("/");
@@ -169,9 +171,9 @@ export function CartForm() {
         }
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 10000,
-        maximumAge: 0,
+        maximumAge: 60000,
       }
     );
   };
