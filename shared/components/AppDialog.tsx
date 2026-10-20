@@ -14,7 +14,7 @@ type AppDialogProps = {
   onOpenChange: (open: boolean) => void;
   title: string;
   children: React.ReactNode;
-  confirmOpen: boolean;
+  confirmOpen?: boolean;
 };
 
 export default function AppDialog({
